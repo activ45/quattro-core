@@ -7,6 +7,10 @@
                         <div class="card-title"><user-icon/> Hesap Bilgisi</div>
                     </div>
                     <div class="card-body">
+                        <div class="mb-3 text-center">
+                            <span class="avatar avatar-xl avatar-rounded" :style="'background-image: url('+$page.props.user.profile_photo_url+')'"></span>
+                        </div>
+
                         <div class="mb-3">
                             <label class="form-label">Ad</label>
                             <input type="text" v-model="form_user.first_name"
