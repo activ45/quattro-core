@@ -28,10 +28,10 @@
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-card" style="min-width: 18rem">
                         <div class="card d-flex flex-column">
                             <div class="card-body p-1 d-flex flex-column">
-                                <a class="dropdown-item mb-1"
-                                   :class="notification.read_at===null?'bg-lime-lt  animate__animated animate__jackInTheBox animate__faster':''"
-                                   :href="route('notifications.markread',notification.id)"
-                                   v-for="notification in $page.props.user.notifications">
+                                <div v-for="notification in $page.props.user.notifications" v-bind:key="notification.id">
+                                    <inertia-link class="dropdown-item mb-1"
+                                                  :class="notification.read_at===null?'bg-lime-lt  animate__animated animate__jackInTheBox animate__faster':''"
+                                                  :href="route('notifications.markread',notification.id)" >
                                         <span class="w-100">
                                             <span class="">{{ notification.data.title }}</span>
                                             <small class="text-muted float-end pl-1"> {{
@@ -40,7 +40,8 @@
                                             <br>
                                             <small class="text-muted " v-html="notification.data['message']"></small>
                                         </span>
-                                </a>
+                                    </inertia-link>
+                                </div>
                             </div>
                         </div>
                     </div>

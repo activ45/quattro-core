@@ -11,7 +11,7 @@
                     <ul class="list-inline list-inline-dots mb-0">
                         <li class="list-inline-item">
                             Copyright &copy; 2021
-                            <a href="." class="link-secondary">{{this.$page.props.app.name}}</a>.
+                            <a href="https://github.com/activ45/quattro-core" class="link-secondary">{{this.$page.props.app.name}}</a>.
                             All rights reserved.
                         </li>
                     </ul>

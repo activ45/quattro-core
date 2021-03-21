@@ -27,9 +27,8 @@ $user = auth()->user();
 
     return redirect()->route('dashboard');
 })->middleware('auth')->name('index');
-Route::middleware(['auth', 'verified'])->get('/dashboard', function ( ) {
-    //flash('Bilgileriniz Güncellendi')->success();
 
+Route::middleware(['auth', 'verified'])->get('/dashboard', function ( ) {
     return inertia('Dashboard');
 })->name('dashboard');
 
@@ -57,8 +56,6 @@ Route::group(['middleware' => ['auth','verified']], function () {
 
     Route::put('/user/settings', [UserProfileController::class, 'settingsupdate'])
         ->name('user-settings.update');
-    Route::put('/user/settings', [UserProfileController::class, 'settingsupdate'])
-        ->name('user-settings.update');
 });
 
 // Override Fortify route
@@ -73,6 +70,7 @@ Route::group(['middleware' => config('fortify.middleware')], function () {
         ->name('user-profile-photo.update');
 });
 
-Route::get('/test',function () {
+Route::put('/test',function (Request $request) {
+    dd($request->all());
     return redirect()->route('dashboard');
 });

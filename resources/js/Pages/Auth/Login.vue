@@ -166,6 +166,7 @@ export default {
             this.$page.props.errors={};
           this.$inertia.post('register',this.form_register,{
             onSuccess: () => {
+                this.is_register = false;
                 this.$swal('Başarılı','Hesabınız oluşturuldu.','success');
             }
           });

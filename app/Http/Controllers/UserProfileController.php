@@ -125,6 +125,6 @@ class UserProfileController extends Controller
         \Setting::set('notyf_xposition',$request->input('notyf_xposition'));
         \Setting::save();
         flash('Hesap ayarları güncellendi.')->success();
-        return inertia()->location(route('profile.edit'));
+        return back();
     }
 }

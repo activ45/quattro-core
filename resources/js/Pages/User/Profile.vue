@@ -9,9 +9,16 @@
                     <div class="card-body">
                         <div class="mb-3 text-center">
                             <a href="#" data-bs-toggle="modal" data-bs-target="#modal-small">
-                                <span class="avatar avatar-upload avatar-xl avatar-rounded cursor-pointer"
-                                      :style="'background-size:cover; background-image: url('+form_user.profile_photo_url+')'"></span>
+                                <span class="avatar avatar-upload avatar-xl  cursor-pointer"
+                                      :style="'background-size:cover;background-position: ' +
+                                       'center center; background-image: url('+$page.props.user.profile_photo_url+')'">
+
+                                </span>
                             </a>
+                            <inertia-link href="#"
+                                            @click.prevent="deleteProfilePhoto"
+                                          v-show="$page.props.user.profile_photo_path !==  null"
+                                          class="btn btn-sm btn-danger">Kaldır</inertia-link>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Ad</label>
@@ -142,15 +149,23 @@
         </div>
         <div class="modal modal-blur fade" ref="modalSmall" id="modal-small" tabindex="-1" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                <form @submit.prevent="submitPhotoFile" ref="formUpload" class="modal-content">
+                <form @submit.prevent="submitPhotoFile" enctype="multipart/form-data"
+                      ref="formUpload" class="modal-content">
                     <div class="modal-body">
                         <div class="modal-title">Fotoğraf yükle</div>
                         <div>
-                            <input type="file" ref="upload" name="photoFile" id="upload" class="form-control" />
+                            <input type="file" ref="upload" name="photoFile" id="upload"
+                                   accept="image/x-png,image/gif,image/jpeg"
+                                   :class="errors.updateProfilePhoto && errors.updateProfilePhoto.photo?'is-invalid':''"
+                                   class="form-control" />
+                            <div v-if="errors.updateProfilePhoto" class="invalid-feedback">
+                                {{errors.updateProfilePhoto.photo}}</div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-link link-secondary me-auto" @click="uploadPhotoCancel" data-bs-dismiss="modal">Vazgeç</button>
+                        <button type="button" class="btn btn-link link-secondary me-auto"
+                                ref="modalCancel"
+                                @click="uploadPhotoCancel" data-bs-dismiss="modal">Vazgeç</button>
                         <button type="submit" class="btn btn-primary">Yükle</button>
                     </div>
                 </form>
@@ -165,6 +180,7 @@ import FilledCircleCheckIcon from "../../Components/Icons/FilledCircleCheckIcon"
 
 export default {
 name: "Profile",
+    metaInfo:{title:'Hesabım'},
     props:{
         page_sessions:Array,
         errors:Object
@@ -195,34 +211,30 @@ name: "Profile",
 
     },
     methods:{
+        deleteProfilePhoto(){
+            this.swalConfirm('Profil fotoğrafını silmek istediğine emin misin?').then((result) => {
+                if (result.isConfirmed) {
+                    this.$inertia.delete(route('profile.delete-profile-photo'))
+                }
+            })
+        },
         submitPhotoFile(){
             const formData= new FormData()
             formData.append('photo', this.$refs.upload.files[0])
             formData.append('type', 'photo')
             formData.append('_method', 'PUT');
 
-            console.log(this.$refs.upload.files[0])
-            console.log(formData)
-
-            this.$inertia.put(route('user-profile-photo.update'), formData)
+            this.$inertia.post(route('user-profile-photo.update'), formData,{
+                onSuccess:()=>{
+                    this.$refs.modalCancel.click()
+                }
+            })
+            // this.$inertia.put(route('user-profile-photo.update'), formData)
         },
         uploadPhotoCancel(){
             this.$refs.formUpload.reset()
             this.$refs.upload.value=null;
             this.form_user.profile_photo_url = this.$page.props.user.profile_photo_url;
-        },
-        uploadChange(event){
-
-            let input = event.target;
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = (e) => {
-                    this.form_user.profile_photo_url = e.target.result
-                }
-
-                reader.readAsDataURL(input.files[0]); // convert to base64 string
-            }
         },
         submitSettingsUpdate(){
             this.$inertia.put(route('user-settings.update'),this.form_settings,{
@@ -230,7 +242,6 @@ name: "Profile",
                 onStart:()=>this.form_settings_process=true,
                 onFinish:() => this.form_settings_process=false,
                 onSuccess: (respon) => {
-                    this.$notyf.success('Hesap ayarları güncellendi')
                 },
                 onError: ()=>{
                     this.$notyf.error('Bir hata oluştu.')

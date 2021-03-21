@@ -1,5 +1,6 @@
 import { App, plugin } from '@inertiajs/inertia-vue'
 import Vue from 'vue'
+import VueMeta from 'vue-meta'
 import VueSweetalert2 from 'vue-sweetalert2';
 import plug from "./plugin";
 import VueTablerIcons, {AlertTriangleIcon} from 'vue-tabler-icons';
@@ -14,6 +15,7 @@ import User from './Models/User'
 import Errors from './Models/Errors'
 
 let moment = require("moment");
+
 require("./quattro");
 
 Vue.prototype.$notyf = new Notyf({
@@ -43,10 +45,19 @@ Vue.prototype.$notyf = new Notyf({
 Vue.use(plugin)
 Vue.use(plug)
 Vue.use(VueTablerIcons)
-Vue.use(VueSweetalert2);
+Vue.use(VueSweetalert2,{confirmButtonText:'Tamam',cancelButtonText:'Vazgeç'});
+Vue.use(VueMeta)
 
 const el = document.getElementById('app')
 new Vue({
+    metaInfo: {
+        title: 'Quattro Core',
+        titleTemplate: '%s - Quattro!',
+        htmlAttrs: {
+            lang: 'tr',
+            amp: false
+        }
+    },
     render: h => h(App, {
         props: {
             initialPage: JSON.parse(el.dataset.page),
