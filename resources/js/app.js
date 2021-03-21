@@ -52,7 +52,7 @@ const el = document.getElementById('app')
 new Vue({
     metaInfo: {
         title: 'Quattro Core',
-        titleTemplate: '%s - Quattro!',
+        titleTemplate: '%s - Quattro',
         htmlAttrs: {
             lang: 'tr',
             amp: false

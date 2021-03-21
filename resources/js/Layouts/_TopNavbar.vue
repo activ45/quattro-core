@@ -49,7 +49,7 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
                        aria-label="Open user menu">
-                            <span class="avatar avatar-sm"
+                            <span class="avatar avatar-rounded avatar-sm"
                                   :style="'background-image: url('+$page.props.user.profile_photo_url+')'"></span>
                         <div class="d-none d-xl-block ps-2">
                             <div>{{ $page.props.user.full_name }}</div>

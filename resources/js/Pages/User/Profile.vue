@@ -1,6 +1,6 @@
 <template>
     <AppLayout>
-        <div class="row justify-content-around">
+        <div class="row mb-3 justify-content-around">
             <div class="col-lg-4">
                 <form @submit.prevent="submitProfileUpdate" class="card">
                     <div class="card-header">
@@ -9,8 +9,8 @@
                     <div class="card-body">
                         <div class="mb-3 text-center">
                             <a href="#" data-bs-toggle="modal" data-bs-target="#modal-small">
-                                <span class="avatar avatar-upload avatar-xl  cursor-pointer"
-                                      :style="'background-size:cover;background-position: ' +
+                                <span class="avatar avatar-upload avatar-rounded avatar-xl  cursor-pointer"
+                                      :style="'background-size:cover;background-color:#fff; background-position: ' +
                                        'center center; background-image: url('+$page.props.user.profile_photo_url+')'">
 
                                 </span>
@@ -100,7 +100,25 @@
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Bailok</div>
+                        <div class="card-title">Tarayıcı Oturumları</div>
+                    </div>
+                    <div class="card-body">
+                        <div v-for="sessi in page_sessions" class="mb-2">
+                            <div class="mb-1">
+                                <h3 class="m-0"> {{sessi.agent.platform}} - {{sessi.agent.browser}}</h3>
+                            </div>
+                            <div class="">
+                                <span v-if="sessi.agent.is_desktop"><device-desktop-icon/></span>
+                                <span v-else><device-mobile-icon/></span>
+                                <span>{{sessi.ip_address}}</span> –
+                                <span class="text-success" v-if="sessi.is_current_device">Bu cihaz</span>
+                                <span class="text-muted" v-else>{{ sessi.last_active }}</span>
+                            </div>
+                        </div>
+
+
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#modal-session"
+                                      class="btn btn-dark mt-3"> Diğer cihazlardan çıkış yap</button>
                     </div>
                 </div>
             </div>
@@ -156,7 +174,8 @@
                 </form>
             </div>
         </div>
-        <div class="modal modal-blur fade" ref="modalSmall" id="modal-small" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal modal-blur fade" ref="modalSmall" id="modal-small" tabindex="-1"
+             style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                 <form @submit.prevent="submitPhotoFile" enctype="multipart/form-data"
                       ref="formUpload" class="modal-content">
@@ -172,12 +191,34 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-link link-secondary me-auto"
+                        <button type="button" class="btn btn-link text-danger me-auto"
                                 ref="modalCancel"
                                 @click="uploadPhotoCancel" data-bs-dismiss="modal">Vazgeç</button>
                         <button type="submit" class="btn btn-primary">Yükle</button>
                     </div>
                 </form>
+            </div>
+        </div>
+        <div class="modal modal-blur fade" ref="modalSession" id="modal-session" tabindex="-1"
+             style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="modal-title">Kimlik doğrulama</div>
+                        <div class="text-center">
+                            <label>
+                                <input type="password" v-model="form_confirm_password" name="password"
+                                       placeholder="Şifreniz"
+                                       class="form-control" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" ref="modalsessioncancel" class="btn btn-link text-danger me-auto"
+                                data-bs-dismiss="modal">Vazgeç</button>
+                        <button type="button" @click="otherSessionDelete" class="btn btn-primary">Doğrula</button>
+                    </div>
+                </div>
             </div>
         </div>
     </AppLayout>
@@ -196,6 +237,7 @@ name: "Profile",
     },
     data(){
     return {
+        form_confirm_password:null,
         form_user_process:false,
         form_password_process:false,
         form_settings_process:false,
@@ -217,9 +259,27 @@ name: "Profile",
         this.$refs.modalSmall.addEventListener('hidden.bs.modal',(event)=>{
             this.uploadPhotoCancel();
         })
+        this.$refs.modalSession.addEventListener('hidden.bs.modal',(event)=>{
+            this.form_confirm_password = null;
+        })
 
     },
     methods:{
+        otherSessionDelete(){
+            this.$inertia.delete(route('profile.logout-other-browser-sessions'),{
+                data:{password:this.form_confirm_password},
+                preserveScroll: true,
+                onSuccess:(respon)=>{
+                    let flas = respon.props.flash[respon.props.flash.length - 1].type;
+                    if( flas === 'success'){
+                        this.$refs.modalsessioncancel.click()
+                    }
+                },
+                onError:(err)=>{
+                    console.log(err)
+                }
+            })
+        },
         deleteProfilePhoto(){
             this.swalConfirm('Profil fotoğrafını silmek istediğine emin misin?').then((result) => {
                 if (result.isConfirmed) {

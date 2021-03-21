@@ -58,16 +58,18 @@ class UserProfileController extends Controller
      * Logout from other browser sessions.
      *
      * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function logoutOtherBrowserSessions(Request $request, StatefulGuard $guard)
     {
         if (! Hash::check($request->password, Auth::user()->password)) {
-            return back()->with('status-fail-toast', 'This password does not match our records.');
+            flash('Bu şifre kayıtlarımızla eşleşmiyor. ')->error();
+            return back();
         }
 
         if (config('session.driver') !== 'database') {
-            return back()->with('status-fail', 'This feature doesn\'t supported!');
+            flash('Bu özellik desteklenmiyor.')->error();
+            return back();
         }
 
         DB::table(config('session.table', 'sessions'))
@@ -75,7 +77,8 @@ class UserProfileController extends Controller
             ->where('id', '!=', request()->session()->getId())
             ->delete();
 
-        return back()->with('status-success-toast', 'Logged out from other browser sessions!');
+        flash('Diğer tarayıcı oturumlarından çıkış yapıldı.')->success();
+        return back();
     }
 
     /**
@@ -109,18 +112,23 @@ class UserProfileController extends Controller
      * Create a new agent instance from the given session.
      *
      * @param  mixed  $session
-     * @return \Jenssegers\Agent\Agent
+     * @return string[]
      */
     protected function createAgent($session)
     {
-        return tap(new Agent, function ($agent) use ($session) {
+       $agent = tap(new Agent, function ($agent) use ($session) {
             $agent->setUserAgent($session->user_agent);
         });
+
+       return [
+           'is_desktop' => $agent->isDesktop(),
+           'platform' => $agent->platform(),
+           'browser' => $agent->browser(),
+       ];
     }
 
     public function settingsupdate(Request $request)
     {
-
         \Setting::set('notyf_yposition',$request->input('notyf_yposition'));
         \Setting::set('notyf_xposition',$request->input('notyf_xposition'));
         \Setting::save();
