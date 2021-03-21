@@ -8,9 +8,11 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3 text-center">
-                            <span class="avatar avatar-xl avatar-rounded" :style="'background-image: url('+$page.props.user.profile_photo_url+')'"></span>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal-small">
+                                <span class="avatar avatar-upload avatar-xl avatar-rounded cursor-pointer"
+                                      :style="'background-size:cover; background-image: url('+form_user.profile_photo_url+')'"></span>
+                            </a>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label">Ad</label>
                             <input type="text" v-model="form_user.first_name"
@@ -138,12 +140,29 @@
                 </form>
             </div>
         </div>
+        <div class="modal modal-blur fade" ref="modalSmall" id="modal-small" tabindex="-1" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <form @submit.prevent="submitPhotoFile" ref="formUpload" class="modal-content">
+                    <div class="modal-body">
+                        <div class="modal-title">Fotoğraf yükle</div>
+                        <div>
+                            <input type="file" ref="upload" name="photoFile" id="upload" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link link-secondary me-auto" @click="uploadPhotoCancel" data-bs-dismiss="modal">Vazgeç</button>
+                        <button type="submit" class="btn btn-primary">Yükle</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </AppLayout>
 </template>
 
 <script>
 import AppLayout from "../../Layouts/AppLayout";
 import FilledCircleCheckIcon from "../../Components/Icons/FilledCircleCheckIcon";
+
 export default {
 name: "Profile",
     props:{
@@ -169,8 +188,42 @@ name: "Profile",
     }
     },
     components: {FilledCircleCheckIcon, AppLayout},
+    mounted() {
+        this.$refs.modalSmall.addEventListener('hidden.bs.modal',(event)=>{
+            this.uploadPhotoCancel();
+        })
 
+    },
     methods:{
+        submitPhotoFile(){
+            const formData= new FormData()
+            formData.append('photo', this.$refs.upload.files[0])
+            formData.append('type', 'photo')
+            formData.append('_method', 'PUT');
+
+            console.log(this.$refs.upload.files[0])
+            console.log(formData)
+
+            this.$inertia.put(route('user-profile-photo.update'), formData)
+        },
+        uploadPhotoCancel(){
+            this.$refs.formUpload.reset()
+            this.$refs.upload.value=null;
+            this.form_user.profile_photo_url = this.$page.props.user.profile_photo_url;
+        },
+        uploadChange(event){
+
+            let input = event.target;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = (e) => {
+                    this.form_user.profile_photo_url = e.target.result
+                }
+
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        },
         submitSettingsUpdate(){
             this.$inertia.put(route('user-settings.update'),this.form_settings,{
                 errorBag:'updateUserSettings',
@@ -219,5 +272,24 @@ name: "Profile",
 </script>
 
 <style scoped>
+div.fileinputs {
+    position: relative;
+}
+
+div.fakefile {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+}
+
+input.file {
+    position: relative;
+    text-align: right;
+    -moz-opacity:0 ;
+    filter:alpha(opacity: 0);
+    opacity: 0;
+    z-index: 2;
+}
 
 </style>

@@ -4,6 +4,8 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import plug from "./plugin";
 import VueTablerIcons, {AlertTriangleIcon} from 'vue-tabler-icons';
 import { Notyf } from 'notyf';
+import vueFilePond from "vue-filepond";
+
 import { InertiaProgress } from '@inertiajs/progress'
 InertiaProgress.init()
 

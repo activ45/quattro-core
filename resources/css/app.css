@@ -1,7 +1,9 @@
 @import "~@tabler/core";
 @import "~sweetalert2/dist/sweetalert2.min.css";
 @import "~animate.css";
+@import "~filepond/dist/filepond.min.css";
 @import "~notyf/notyf.min.css";
+
 .notyf__toast {
     border-radius: 3px !important;
 }

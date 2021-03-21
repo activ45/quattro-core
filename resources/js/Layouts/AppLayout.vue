@@ -23,7 +23,7 @@ export default {
     components: {TopNavbar, Navbar, Footer, FlashMessage},
     mounted() {
         window.addEventListener('focus',function(){
-            setTimeout(function(){ window.location.reload(); }, 700);
+            // setTimeout(function(){ window.location.reload(); }, 700);
         })
     }
 }

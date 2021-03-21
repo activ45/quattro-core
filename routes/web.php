@@ -57,6 +57,8 @@ Route::group(['middleware' => ['auth','verified']], function () {
 
     Route::put('/user/settings', [UserProfileController::class, 'settingsupdate'])
         ->name('user-settings.update');
+    Route::put('/user/settings', [UserProfileController::class, 'settingsupdate'])
+        ->name('user-settings.update');
 });
 
 // Override Fortify route

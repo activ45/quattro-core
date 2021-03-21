@@ -52,7 +52,7 @@ class ProfileInformationController extends Controller
      * Update the user's profile photo.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function updateProfilePhoto(Request $request)
     {
@@ -62,6 +62,7 @@ class ProfileInformationController extends Controller
 
         $this->checkValidation($validator);
 
+        dd($request->all());
         Auth::user()->updateProfilePhoto($request->photo);
 
         return response()->json([
