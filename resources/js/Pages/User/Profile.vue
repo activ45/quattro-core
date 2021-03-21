@@ -1,6 +1,6 @@
 <template>
     <AppLayout>
-        <div class="row justify-content-center">
+        <div class="row justify-content-around">
             <div class="col-lg-4">
                 <form @submit.prevent="submitProfileUpdate" class="card">
                     <div class="card-header">
@@ -94,6 +94,15 @@
                             Güncelle</button>
                     </div>
                 </form>
+            </div>
+        </div>
+        <div class="row justify-content-around">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Bailok</div>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-4">
                 <form @submit.prevent="submitSettingsUpdate" class="card">
