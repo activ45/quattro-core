@@ -239,7 +239,10 @@ name: "Profile",
         submitSettingsUpdate(){
             this.$inertia.put(route('user-settings.update'),this.form_settings,{
                 errorBag:'updateUserSettings',
-                onStart:()=>this.form_settings_process=true,
+                onStart:()=>{
+                    this.form_settings_process=true;
+                    this.$notyf.dismissAll()
+                },
                 onFinish:() => this.form_settings_process=false,
                 onSuccess: (respon) => {
                 },
