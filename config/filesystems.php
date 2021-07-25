@@ -41,6 +41,12 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
+        'media' => [
+            'driver' => 'local',
+            'root' => storage_path('app/ticket_media'),
+            'url' => env('APP_URL').'/ticket_media/',
+            'visibility' => 'private',
+        ],
 
         's3' => [
             'driver' => 's3',

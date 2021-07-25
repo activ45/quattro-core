@@ -42,14 +42,20 @@
                                         </span>
                                     </inertia-link>
                                 </div>
+                                <div v-if="!$page.props.user.notifications.length" class="p-2">
+                                    <span class="w-100 text-center small text-muted">
+                                        Mesaj yok
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
+                    <a href="#" class="nav-link d-flex lh-1 p-0" data-bs-toggle="dropdown"
+                       :class="userHasRole('admin')?'text-primary':userHasRole('super-admin')?'text-danger':'text-reset'"
                        aria-label="Open user menu">
-                            <span class="avatar avatar-rounded avatar-sm"
+                            <span class="avatar avatar-sm"
                                   :style="'background-image: url('+$page.props.user.profile_photo_url+')'"></span>
                         <div class="d-none d-xl-block ps-2">
                             <div>{{ $page.props.user.full_name }}</div>

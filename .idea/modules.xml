@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/quattro-core.iml" filepath="$PROJECT_DIR$/.idea/quattro-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/core.quattro.iml" filepath="$PROJECT_DIR$/.idea/core.quattro.iml" />
     </modules>
   </component>
 </project>

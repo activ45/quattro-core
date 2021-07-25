@@ -9,14 +9,14 @@
     },
     "devDependencies": {
         "axios": "^0.21",
-        "filepond-plugin-file-encode": "^2.1.9",
-        "filepond-plugin-file-validate-type": "^1.2.5",
-        "filepond-plugin-image-crop": "^2.0.4",
-        "filepond-plugin-image-exif-orientation": "^1.0.9",
+        "css-loader": "^5.2.7",
         "jquery": "^3.6.0",
         "laravel-mix": "^6.0.13",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
+        "resolve-url-loader": "^3.1.2",
+        "sass": "^1.32.12",
+        "sass-loader": "^10.1.1",
         "vue-loader": "^15.9.5",
         "vue-template-compiler": "^2.6.12"
     },
@@ -24,19 +24,14 @@
         "@inertiajs/inertia": "^0.8.5",
         "@inertiajs/inertia-vue": "^0.5.5",
         "@inertiajs/progress": "^0.2.4",
-        "@tabler/core": "^1.0.0-beta",
+        "@tabler/core": "^1.0.0-beta2",
+        "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
         "animate.css": "^4.1.1",
-        "filepond": "^4.25.3",
-        "filepond-plugin-image-preview": "^4.6.5",
-        "filepond-plugin-image-resize": "^2.0.7",
-        "filepond-plugin-image-transform": "^3.7.5",
         "moment": "^2.29.1",
         "notyf": "^3.9.0",
-        "vee-validate": "^3.4.5",
         "vue": "^2.6.12",
-        "vue-filepond": "^6.0.0",
         "vue-meta": "^2.4.0",
         "vue-sweetalert2": "^4.2.0",
-        "vue-tabler-icons": "^1.8.1"
+        "vue-tabler-icons": "^1.9.0"
     }
 }

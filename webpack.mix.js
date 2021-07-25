@@ -1,5 +1,3 @@
-const mix = require('laravel-mix');
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -10,13 +8,11 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
+const mix = require('laravel-mix');
+mix.disableSuccessNotifications();
+
 
 // console.log(process.env); // a large object without my var
 mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]).vue();
-mix.disableNotifications();
-// mix.disableSuccessNotifications();
-
-// mix.browserSync('laravel.test');
+    .sass('resources/scss/app.scss','public/css')
+    .vue().version();

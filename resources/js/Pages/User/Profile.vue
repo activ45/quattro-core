@@ -174,7 +174,7 @@
                 </form>
             </div>
         </div>
-        <div class="modal modal-blur fade" ref="modalSmall" id="modal-small" tabindex="-1"
+        <div class="modal fade" ref="modalSmall" id="modal-small" tabindex="-1"
              style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                 <form @submit.prevent="submitPhotoFile" enctype="multipart/form-data"
@@ -199,7 +199,7 @@
                 </form>
             </div>
         </div>
-        <div class="modal modal-blur fade" ref="modalSession" id="modal-session" tabindex="-1"
+        <div class="modal fade" ref="modalSession" id="modal-session" tabindex="-1"
              style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -275,9 +275,6 @@ name: "Profile",
                         this.$refs.modalsessioncancel.click()
                     }
                 },
-                onError:(err)=>{
-                    console.log(err)
-                }
             })
         },
         deleteProfilePhoto(){
@@ -315,9 +312,6 @@ name: "Profile",
                 onFinish:() => this.form_settings_process=false,
                 onSuccess: (respon) => {
                 },
-                onError: ()=>{
-                    this.$notyf.error('Bir hata oluştu.')
-                }
             })
         },
         submitProfileUpdate(){
@@ -329,9 +323,6 @@ name: "Profile",
                     this.form_user = {...this.$page.props.user}
                     this.$notyf.success('Hesap bilgileri güncellendi')
                 },
-                onError: ()=>{
-                    this.$notyf.error('Bir hata oluştu.')
-                }
             })
         },
         submitPasswordUpdate(){
@@ -345,9 +336,6 @@ name: "Profile",
                     this.form_password.password_confirmation=null;
                     this.$notyf.success('Hesap şifresi güncellendi')
                 },
-                onError: ()=>{
-                    this.$notyf.error('Bir hata oluştu.')
-                }
             })
         },
     }

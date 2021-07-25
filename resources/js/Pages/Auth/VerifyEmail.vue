@@ -17,6 +17,9 @@
 <script>
 import AuthLayout from "../../Layouts/AuthLayout";
 export default {
+    metaInfo:{
+      title:'Hesabını Doğrula'
+    },
     name: "VerifyEmail",
     components: {AuthLayout}
 }

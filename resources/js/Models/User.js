@@ -5,7 +5,10 @@ export default class User {
             this[dat] = data[dat];
         }
     }
-    get full_name(){
-        return this.first_name + " "+ this.last_name;
+    get role_names(){
+        return this.roles.map(e => e.name).join(", ");
+    }
+    get role_descriptions(){
+        return this.roles.map(e => e.description).join(", ");
     }
 }

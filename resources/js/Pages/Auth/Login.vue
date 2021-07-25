@@ -8,6 +8,12 @@
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">Kullanıcı Girişi</h2>
                     <div class="mb-3">
+                        <h4>Hazır Kullanıcılar</h4>
+                        <a href="#" @click.prevent="loginuser('asd@asd.com','123')" class="badge bg-azure-lt">Batuhan - asd@asd.com</a>
+                        <a href="#" @click.prevent="loginuser('asd1@asd.com','123')" class="badge bg-dark-lt">Kaan - asd1@asd.com</a>
+                        <a href="#" @click.prevent="loginuser('asd2@asd.com','123')" class="badge bg-dark-lt">Tunahan - asd2@asd.com</a>
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label">E-Posta</label>
                         <input type="email" class="form-control" :class="$page.props.errors.email?'is-invalid':''"
                                v-model="form_login.email" tabindex="1"
@@ -101,10 +107,14 @@ import AuthLayout from "../../Layouts/AuthLayout";
 
 import Alert from "../../Components/Alert";
 export default {
+    metaInfo:{
+        title:'Giriş'
+    },
     name: "Login",
     components: {Alert, AuthLayout},
     props: {
-        register: Boolean
+        register: Boolean,
+        users:Array
     },
     data(){
         return {
@@ -138,6 +148,11 @@ export default {
       }
     },
   methods:{
+        loginuser(mail,pass){
+            this.form_login.email = mail;
+            this.form_login.password = pass;
+            this.submitLogin();
+        },
         passView(){
           if(viewPass){
               this.$refs.passInput.type = 'text'

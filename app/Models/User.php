@@ -3,22 +3,27 @@
 namespace App\Models;
 
 use App\Models\Traits\UserModelTrait;
+use App\Models\Traits\UserOnline;
+use HighIdeas\UsersOnline\Traits\UsersOnlineTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use App\Models\Traits\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
     use UserModelTrait;
+    use SoftDeletes;
+    use UserOnline;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -63,7 +68,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $appends = [
-        'profile_photo_url',
+        'profile_photo_url','full_name','is_online','permissions_all'
     ];
 
 }

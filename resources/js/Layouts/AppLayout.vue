@@ -1,9 +1,9 @@
 <template>
-    <div class="page">
+    <div class="wrapper">
         <TopNavbar></TopNavbar>
         <Navbar></Navbar>
-        <div class="content">
-            <div class="container-xl">
+        <div class="page-wrapper">
+            <div class="container-xl pt-3" style="min-height: 350px">
                 <slot/>
             </div>
             <Footer></Footer>

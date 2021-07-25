@@ -9,7 +9,9 @@
                 <div class="mb-3">
                     <label class="form-label">E-Posta</label>
                     <input type="email" class="form-control" v-model="form.email"
+                           :class="$page.props.errors.email?'is-invalid':''"
                            placeholder="E-Posta adresiniz">
+                    <div class="invalid-feedback">{{$page.props.errors.email?$page.props.errors.email.replace('email','E-Posta'):''}}</div>
                 </div>
                 <div class="form-footer">
                     <button type="submit" class="btn btn-primary w-100"><check-icon/> Gönder</button>
@@ -26,6 +28,9 @@
 <script>
 import AuthLayout from "../../Layouts/AuthLayout";
 export default {
+    metaInfo:{
+        title:'Şifre Hatırlat'
+    },
     name: "ForgotPassword",
     components: {AuthLayout},
     data(){
@@ -37,7 +42,16 @@ export default {
     },
     methods:{
         submit(){
+            this.$inertia.post(route('password.email'),this.form,{
+                onSuccess: (page) => {
+                    this.$swal('Başarılı','Şifrenizi sıfırlamanız için E-Posta adresinize bir link gonderildi.','success')
+                },
+                onError: (err) => {
+                    console.log(err);
+                    this.$notyf.error('Bir hata oluştu!')
 
+                }
+            })
         }
     }
 }

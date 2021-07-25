@@ -48,7 +48,6 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
         ]);
 
-        $user->notify(new News('Yeni Hesap','Hesabınız oluşturuldu.'));
         return $user;
     }
 }

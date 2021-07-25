@@ -1,27 +1,31 @@
 {
-    "name": "activ45/quattro-core",
+    "name": "activ45/quattro-ticket",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Quattro Ticket application with Quattro Core",
     "keywords": [
         "framework",
         "laravel"
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^7.4|^8.0",
+        "cviebrock/eloquent-sluggable": "^8.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "inertiajs/inertia-laravel": "^0.3",
+        "jenssegers/agent": "^2.6",
+        "laracasts/flash": "^3.0",
+        "laravel/fortify": "^1.7",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
-        "laravel/fortify": "^1.7",
-        "jenssegers/agent": "^2.6",
-        "laravel/sanctum": "^2.9",
-        "inertiajs/inertia-laravel": "^0.3",
-        "rinvex/laravel-categories": "^5.0",
+        "ricardoboss/laravel-user-settings": "^2.2",
         "tightenco/ziggy": "^1.0",
-        "laracasts/flash": "^3.0",
-        "ricardoboss/laravel-user-settings": "^2.2"
+        "konekt/enum-eloquent": "^1.7",
+        "highideas/laravel-users-online": "^3.0",
+        "spatie/laravel-permission": "^4.0",
+        "spatie/laravel-activitylog": "^3.17",
+        "spatie/laravel-medialibrary": "^9.4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

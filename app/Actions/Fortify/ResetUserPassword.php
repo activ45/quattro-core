@@ -2,6 +2,8 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\User;
+use App\Notifications\News;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\ResetsUserPasswords;
@@ -13,7 +15,7 @@ class ResetUserPassword implements ResetsUserPasswords
     /**
      * Validate and reset the user's forgotten password.
      *
-     * @param  mixed  $user
+     * @param  mixed|User  $user
      * @param  array  $input
      * @return void
      */
@@ -26,5 +28,7 @@ class ResetUserPassword implements ResetsUserPasswords
         $user->forceFill([
             'password' => Hash::make($input['password']),
         ])->save();
+
+        $user->notify(new News('Şifre değiştirildi','Hesabınızın şifresi E-Posta ile değiştirildi.'));
     }
 }

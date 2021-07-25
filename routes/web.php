@@ -5,34 +5,17 @@ use App\Http\Controllers\UserProfileController;
 use App\Notifications\News;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/',function (){
-$user = auth()->user();
-    //$user->notify(new News('Mesajınız var','Kullanıcı mesajınız geldi gelen kutunuzda.'));
-
-    flash('Bilgileriniz Güncellendi')->warning()->important();
-    flash('Bilgileriniz Güncellendi')->success()->important();
-    flash('Bilgileriniz Güncellendi')->info()->important();
-    flash('Bilgileriniz Güncellendi')->error()->important();
-
-    return redirect()->route('dashboard');
-})->middleware('auth')->name('index');
-
-Route::middleware(['auth', 'verified'])->get('/dashboard', function ( ) {
-    return inertia('Dashboard');
-})->name('dashboard');
+//region Main Page Controller
+Route::group(['middleware' => ['auth','verified']],function(){
+    Route::get('/',[\App\Http\Controllers\MainController::class,'index'])
+        ->name('index');
+    Route::get('/dashboard', [\App\Http\Controllers\MainController::class,'dashboard'])
+        ->name('dashboard');
+});
+//endregion
 
 
+//region User Profile Routes
 Route::group(['middleware' => ['auth','verified']], function () {
     // User & Profile...
     Route::get('/user/profile', [UserProfileController::class, 'edit'])
@@ -57,6 +40,7 @@ Route::group(['middleware' => ['auth','verified']], function () {
     Route::put('/user/settings', [UserProfileController::class, 'settingsupdate'])
         ->name('user-settings.update');
 });
+//endregion Routes
 
 // Override Fortify route
 Route::group(['middleware' => config('fortify.middleware')], function () {
@@ -70,7 +54,6 @@ Route::group(['middleware' => config('fortify.middleware')], function () {
         ->name('user-profile-photo.update');
 });
 
-Route::put('/test',function (Request $request) {
-    dd($request->all());
-    return redirect()->route('dashboard');
+Route::get('/test',function (Request $request) {
+    return back();
 });
