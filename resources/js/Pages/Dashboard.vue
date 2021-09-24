@@ -1,7 +1,11 @@
 <template>
     <AppLayout>
+        <PageHeader>
+            <div class="col">
+                <h3 class="page-title">Tüm Kullanıcılar</h3>
+            </div>
+        </PageHeader>
         <div class="row row-cards">
-            <h3>Tüm Kullanıcılar</h3>
             <div class="col-md-3 col-lg-2" v-for="user in page_users">
                 <div class="card">
                     <div class="card-body p-3 text-center">
@@ -26,10 +30,11 @@
 <script>
 import AppLayout from "../Layouts/AppLayout";
 import Avatar from "../Components/Avatar";
+import PageHeader from "../Components/PageHeader";
 export default {
     metaInfo:{title:'Ana Sayfa'},
     name: "Dashboard",
-    components: {Avatar, AppLayout},
+    components: {PageHeader, Avatar, AppLayout},
     props:{
         page_users:Object
     },

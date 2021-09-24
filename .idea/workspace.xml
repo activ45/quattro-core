@@ -66,9 +66,16 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -226,6 +233,7 @@
       <path value="$PROJECT_DIR$/vendor/fideloper/proxy" />
       <path value="$PROJECT_DIR$/vendor/phar-io/version" />
       <path value="$PROJECT_DIR$/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
     </include_path>
   </component>
   <component name="ProjectId" id="1voVZHPnRA3Q2LABys8lJjz56nc" />
@@ -238,12 +246,22 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/js/Pages/Admin/User" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2021.1.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\laragon\www\quattro\resources\js\Pages\Admin\User" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\laragon\www\quattro\frontend\libs\inertiajs" />
+      <recent name="D:\laragon\www\quattro\frontend" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.development">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
       <method v="2" />
@@ -253,6 +271,16 @@
       <command value="run" />
       <scripts>
         <script value="development" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="hot" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="hot" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -271,6 +299,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.watch" />
+        <item itemvalue="npm.hot" />
         <item itemvalue="npm.development" />
       </list>
     </recent_temporary>
@@ -284,6 +313,10 @@
       <option name="presentableId" value="Default" />
       <updated>1627228487542</updated>
       <workItem from="1627228490498" duration="2590000" />
+      <workItem from="1629221856955" duration="560000" />
+      <workItem from="1629224948351" duration="618000" />
+      <workItem from="1629316785136" duration="589000" />
+      <workItem from="1632503440959" duration="1430000" />
     </task>
     <servers />
   </component>

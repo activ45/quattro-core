@@ -24,7 +24,7 @@
         "@inertiajs/inertia": "^0.8.5",
         "@inertiajs/inertia-vue": "^0.5.5",
         "@inertiajs/progress": "^0.2.4",
-        "@tabler/core": "^1.0.0-beta2",
+        "@tabler/core": "^1.0.0-beta3",
         "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
         "animate.css": "^4.1.1",
         "moment": "^2.29.1",

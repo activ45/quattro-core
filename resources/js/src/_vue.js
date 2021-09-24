@@ -1,7 +1,8 @@
 import Vue from "vue";
-import {Notyf} from "notyf";
 import {App, plugin} from "@inertiajs/inertia-vue";
 import { InertiaProgress } from '@inertiajs/progress'
+import {Notyf} from "notyf";
+
 import plug from "./_plugin";
 import VueTablerIcons from "vue-tabler-icons";
 import VueSweetalert2 from "vue-sweetalert2";
