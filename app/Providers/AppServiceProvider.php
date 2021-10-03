@@ -25,12 +25,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $ticket_enums = collect(\App\Enums\TicketStatus::choices())->mergeRecursive(TicketStatus::colors())->map(function ($var){
-            return [
-                'text' => $var[0],
-                'color' => $var[1]
-            ];
-        });
-        View::share('ticket_enums', $ticket_enums->toJson());
     }
 }
