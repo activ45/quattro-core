@@ -1,9 +1,9 @@
 {
-    "name": "activ45/quattro-ticket",
+    "name": "activ45/quattro-core",
     "type": "project",
-    "description": "Quattro Ticket application with Quattro Core",
+    "description": "Quattro Core",
     "keywords": [
-        "framework",
+        "quattro",
         "laravel"
     ],
     "license": "MIT",
@@ -80,5 +80,11 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta"
         ]
-    }
+    },
+    "authors": [
+        {
+            "name": "Batuhan OK",
+            "email": "activ45@hotmail.com"
+        }
+    ]
 }
