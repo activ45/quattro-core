@@ -3,6 +3,7 @@
 use App\Http\Controllers\Fortify\ProfileInformationController;
 use App\Http\Controllers\UserProfileController;
 use App\Notifications\News;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 
 //region Main Page Controller
@@ -55,5 +56,5 @@ Route::group(['middleware' => config('fortify.middleware')], function () {
 });
 
 Route::get('/test',function (Request $request) {
-    return back();
+    return Carbon::now();
 });

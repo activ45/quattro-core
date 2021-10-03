@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Eastwest\Json\Json;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Laracasts\Flash\Message;
@@ -51,6 +52,7 @@ class HandleInertiaRequests extends Middleware
                     ? $request->user()->append(['notifications','unread_notifications'])
                     : null;
                 },
+            'swal' => fn () => (object) Json::decode($request->session()->get('alert.config','[]')),
             'flash' => fn () => collect($request->session()->get('flash_notification'))
                 ->transform(function(Message $arr){
                     return [

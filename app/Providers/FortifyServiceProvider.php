@@ -7,6 +7,7 @@ use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Models\User;
+use Eastwest\Json\Json;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -51,10 +52,21 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::requestPasswordResetLinkView(function () {
+
             return inertia('Auth/ForgotPassword');
         });
 
         Fortify::resetPasswordView(function (Request $request) {
+
+
+            $getToken = \DB::table('password_resets')
+                ->where('email',$request->get('email'))
+                ->first();
+
+            if( !$getToken || !Hash::check($request->route()->parameter('token'),$getToken->token) ){
+                alert()->error('Hata!','Şifre sıfırlama bağlantısı geçersiz.');
+                return redirect()->route('login');
+            }
 
             return inertia('Auth/ResetPassword', ['request' => [
                 'email' => $request->get('email'),

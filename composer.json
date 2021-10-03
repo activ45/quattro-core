@@ -25,7 +25,9 @@
         "highideas/laravel-users-online": "^3.0",
         "spatie/laravel-permission": "^5.0",
         "spatie/laravel-activitylog": "^3.17",
-        "spatie/laravel-medialibrary": "^9.4"
+        "spatie/laravel-medialibrary": "^9.4",
+        "realrashid/sweet-alert": "^4.0",
+        "eastwest/json": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

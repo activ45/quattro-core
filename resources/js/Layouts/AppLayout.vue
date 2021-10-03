@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <TopNavbar></TopNavbar>
-        <Navbar></Navbar>
+<!--        <Navbar></Navbar>-->
         <div class="page-wrapper">
             <div class="container-xl pt-3" style="min-height: 350px">
                 <slot/>

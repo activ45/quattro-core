@@ -1,7 +1,7 @@
 <template>
     <AuthLayout>
         <div class="text-center mb-4">
-            <a href=""><img :src="asset('static/logo.svg')" height="36" alt=""></a>
+            <Link :href="route('index')"><img :src="asset('static/logo.svg')" height="36" alt=""></Link>
         </div>
         <form class="card card-md animate__animated animate__fadeInRight animate__faster" @submit.prevent="submit" autocomplete="off">
             <div class="card-body">
@@ -26,13 +26,14 @@
 </template>
 
 <script>
+import { Link } from '@inertiajs/inertia-vue'
 import AuthLayout from "../../Layouts/AuthLayout";
 export default {
     metaInfo:{
         title:'Şifre Hatırlat'
     },
     name: "ForgotPassword",
-    components: {AuthLayout},
+    components: {AuthLayout,Link},
     data(){
         return {
             form:{

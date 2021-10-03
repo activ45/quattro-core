@@ -3,12 +3,15 @@
         <div class="container-tight py-6">
             <slot/>
         </div>
+        <FlashMessage :notifications="this.$page.props.flash"/>
     </div>
 </template>
 
 <script>
+import FlashMessage from "../Components/FlashMessage";
 export default {
-    name: "AuthLayout"
+    name: "AuthLayout",
+    components: {FlashMessage}
 }
 </script>
 

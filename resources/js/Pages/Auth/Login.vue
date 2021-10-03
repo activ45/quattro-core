@@ -1,7 +1,7 @@
 <template>
     <AuthLayout>
         <div class="text-center mb-4">
-            <a href=""><img :src="asset('static/logo.svg')" height="36" alt=""></a>
+            <Link :href="route('index')"><img :src="asset('static/logo.svg')" height="36" alt=""></Link>
         </div>
         <div v-show="!is_register" class="animate__animated animate__fadeInLeft animate__faster">
             <form class="card card-md" @submit.prevent="submitLogin" autocomplete="off">
@@ -103,6 +103,7 @@
 </template>
 
 <script>
+import { Link } from '@inertiajs/inertia-vue'
 import AuthLayout from "../../Layouts/AuthLayout";
 
 import Alert from "../../Components/Alert";
@@ -111,7 +112,7 @@ export default {
         title:'Giriş'
     },
     name: "Login",
-    components: {Alert, AuthLayout},
+    components: {Alert, AuthLayout,Link},
     props: {
         register: Boolean,
         users:Array
