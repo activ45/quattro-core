@@ -1,7 +1,7 @@
 {
-    "name": "activ45/quattro-core",
+    "name": "batv45/quattro",
     "type": "project",
-    "description": "Quattro Core",
+    "description": "Quattro Laravel Started Package.",
     "keywords": [
         "quattro",
         "laravel"
