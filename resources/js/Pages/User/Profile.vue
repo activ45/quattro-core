@@ -131,12 +131,12 @@
                             </span> dikey konumu</label>
                             <div class="form-selectgroup">
                                 <label class="form-selectgroup-item">
-                                    <input type="radio" name="yposition" v-model="form_settings.notyf_yposition" value="top" class="form-selectgroup-input" checked="">
+                                    <input type="radio" name="yposition" v-model="form_settings.notyf_yposition" value="top" class="form-selectgroup-input" >
                                     <span class="form-selectgroup-label">
                                         <strong> top</strong> <arrow-bar-to-up-icon/> Ekranın üst kısmında.</span>
                                 </label>
                                 <label class="form-selectgroup-item">
-                                    <input type="radio" name="yposition" v-model="form_settings.notyf_yposition" value="bottom" class="form-selectgroup-input" checked="">
+                                    <input type="radio" name="yposition" v-model="form_settings.notyf_yposition" value="bottom" class="form-selectgroup-input" >
                                     <span class="form-selectgroup-label">
                                         <strong> bottom</strong> <arrow-bar-to-down-icon/> Ekranın alt kısmında.</span>
                                 </label>
@@ -148,17 +148,17 @@
                             </span> yatay konumu</label>
                             <div class="form-selectgroup">
                                 <label class="form-selectgroup-item">
-                                    <input type="radio" name="xposition" v-model="form_settings.notyf_xposition" value="left" class="form-selectgroup-input" checked="">
+                                    <input type="radio" name="xposition" v-model="form_settings.notyf_xposition" value="left" class="form-selectgroup-input">
                                     <span class="form-selectgroup-label">
                                         <strong> left</strong> <arrow-bar-to-left-icon/> Ekranın sol tarafında.</span>
                                 </label>
                                 <label class="form-selectgroup-item ms-auto me-auto">
-                                    <input type="radio" name="xposition" v-model="form_settings.notyf_xposition" value="center" class="form-selectgroup-input" checked="">
+                                    <input type="radio" name="xposition" v-model="form_settings.notyf_xposition" value="center" class="form-selectgroup-input">
                                     <span class="form-selectgroup-label">
                                         <strong> center</strong> <dots-icon/> Ekranın ortasında.</span>
                                 </label>
                                 <label class="form-selectgroup-item ms-1 ms-lg-auto">
-                                    <input type="radio" name="xposition" v-model="form_settings.notyf_xposition" value="right" class="form-selectgroup-input" checked="">
+                                    <input type="radio" name="xposition" v-model="form_settings.notyf_xposition" value="right" class="form-selectgroup-input">
                                     <span class="form-selectgroup-label">
                                         <strong> right</strong> <arrow-bar-to-right-icon/> Ekranın sağ tarafında.</span>
                                 </label>
@@ -243,8 +243,8 @@ name: "Profile",
         form_settings_process:false,
 
         form_settings:{
-            notyf_yposition:this.$page.props.user.settings.notyf_yposition,
-            notyf_xposition:this.$page.props.user.settings.notyf_xposition,
+            notyf_yposition:this.$page.props.user.settings.notyf_yposition??'bottom',
+            notyf_xposition:this.$page.props.user.settings.notyf_xposition??'right',
         },
         form_user:{...this.$page.props.user},
         form_password:{
@@ -311,6 +311,8 @@ name: "Profile",
                 },
                 onFinish:() => this.form_settings_process=false,
                 onSuccess: (respon) => {
+                    // localStorage.setItem('notyfXpos',this.form_settings.notyf_xposition)
+                    // localStorage.setItem('notyfYpos',this.form_settings.notyf_yposition)
                 },
             })
         },

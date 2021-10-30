@@ -10101,8 +10101,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       if (this.$page.props.swal.title != null || this.$page.props.swal.text != null || this.$page.props.swal.html != null) this.$swal.fire(this.$page.props.swal);
     },
     flash: function flash() {
-      this.$notyf.options.position.y = this.$page.props.hasOwnProperty('user.settings.notyf_yposition') ? this.$page.props.user.settings.notyf_yposition : 'bottom';
-      this.$notyf.options.position.x = this.$page.props.hasOwnProperty('user.settings.notyf_xposition') ? this.$page.props.user.settings.notyf_xposition : 'right';
+      if (this.$page.props.user && this.$page.props.user.settings) {
+        this.$notyf.options.position.y = this.$page.props.user.settings.notyf_yposition ? this.$page.props.user.settings.notyf_yposition : 'bottom';
+        this.$notyf.options.position.x = this.$page.props.user.settings.notyf_xposition ? this.$page.props.user.settings.notyf_xposition : 'right';
+      }
 
       var _iterator = _createForOfIteratorHelper(this.notifications),
           _step;
@@ -11937,14 +11939,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     errors: Object
   },
   data: function data() {
+    var _this$$page$props$use, _this$$page$props$use2;
+
     return {
       form_confirm_password: null,
       form_user_process: false,
       form_password_process: false,
       form_settings_process: false,
       form_settings: {
-        notyf_yposition: this.$page.props.user.settings.notyf_yposition,
-        notyf_xposition: this.$page.props.user.settings.notyf_xposition
+        notyf_yposition: (_this$$page$props$use = this.$page.props.user.settings.notyf_yposition) !== null && _this$$page$props$use !== void 0 ? _this$$page$props$use : 'bottom',
+        notyf_xposition: (_this$$page$props$use2 = this.$page.props.user.settings.notyf_xposition) !== null && _this$$page$props$use2 !== void 0 ? _this$$page$props$use2 : 'right'
       },
       form_user: _objectSpread({}, this.$page.props.user),
       form_password: {
@@ -12026,7 +12030,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         onFinish: function onFinish() {
           return _this5.form_settings_process = false;
         },
-        onSuccess: function onSuccess(respon) {}
+        onSuccess: function onSuccess(respon) {// localStorage.setItem('notyfXpos',this.form_settings.notyf_xposition)
+          // localStorage.setItem('notyfYpos',this.form_settings.notyf_yposition)
+        }
       });
     },
     submitProfileUpdate: function submitProfileUpdate() {
@@ -49007,12 +49013,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-selectgroup-input",
-                      attrs: {
-                        type: "radio",
-                        name: "yposition",
-                        value: "top",
-                        checked: ""
-                      },
+                      attrs: { type: "radio", name: "yposition", value: "top" },
                       domProps: {
                         checked: _vm._q(
                           _vm.form_settings.notyf_yposition,
@@ -49057,8 +49058,7 @@ var render = function() {
                       attrs: {
                         type: "radio",
                         name: "yposition",
-                        value: "bottom",
-                        checked: ""
+                        value: "bottom"
                       },
                       domProps: {
                         checked: _vm._q(
@@ -49119,8 +49119,7 @@ var render = function() {
                       attrs: {
                         type: "radio",
                         name: "xposition",
-                        value: "left",
-                        checked: ""
+                        value: "left"
                       },
                       domProps: {
                         checked: _vm._q(
@@ -49169,8 +49168,7 @@ var render = function() {
                         attrs: {
                           type: "radio",
                           name: "xposition",
-                          value: "center",
-                          checked: ""
+                          value: "center"
                         },
                         domProps: {
                           checked: _vm._q(
@@ -49220,8 +49218,7 @@ var render = function() {
                         attrs: {
                           type: "radio",
                           name: "xposition",
-                          value: "right",
-                          checked: ""
+                          value: "right"
                         },
                         domProps: {
                           checked: _vm._q(
