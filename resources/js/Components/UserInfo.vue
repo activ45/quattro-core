@@ -29,9 +29,10 @@
 </template>
 <script>
 import Avatar from "./Avatar";
+import {Link} from "@inertiajs/inertia-vue";
 export default {
     name: "UserInfo",
-    components: {Avatar},
+    components: {Avatar, Link},
     props:{
         user:Object,
         avatar: {

@@ -13,7 +13,12 @@
 </template>
 
 <script>
+import {Link} from "@inertiajs/inertia-vue";
+
 export default {
+    components: {
+        Link
+    },
   props: {
     links: Array,
   },

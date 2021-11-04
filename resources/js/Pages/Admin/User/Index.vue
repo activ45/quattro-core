@@ -36,7 +36,7 @@
                                     <span class="badge bg-dark-lt" v-else>Kullanıcı</span>
                                 </td>
                                 <td>
-                                    <Link :href="route('admin.user.show',user)" class=""><pencil-icon/> Düzenle</Link>
+                                    <Link :href="route('admin.user.show',user)" class="btn btn-link"><chevron-right-icon/> Düzenle</Link>
                                 </td>
                             </tr>
                             </tbody>
