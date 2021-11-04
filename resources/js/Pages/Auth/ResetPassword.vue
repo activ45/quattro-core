@@ -25,7 +25,7 @@
 
         </form>
         <div class="text-center text-muted mt-3">
-            Giriş sayfasına <inertia-link :href="route('login')"  tabindex="-1" class=""><arrow-back-icon/> Dön</inertia-link>
+            Giriş sayfasına <Link :href="route('login')"  tabindex="-1" class=""><arrow-back-icon/> Dön</Link>
         </div>
     </AuthLayout>
 </template>

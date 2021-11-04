@@ -29,7 +29,7 @@
                         <div class="card d-flex flex-column">
                             <div class="card-body p-1 d-flex flex-column">
                                 <div v-for="notification in $page.props.user.notifications" v-bind:key="notification.id">
-                                    <inertia-link class="dropdown-item mb-1"
+                                    <Link class="dropdown-item mb-1"
                                                   :class="notification.read_at===null?'bg-lime-lt  animate__animated animate__jackInTheBox animate__faster':''"
                                                   :href="route('notifications.markread',notification.id)" >
                                         <span class="w-100">
@@ -40,7 +40,7 @@
                                             <br>
                                             <small class="text-muted " v-html="notification.data['message']"></small>
                                         </span>
-                                    </inertia-link>
+                                    </Link>
                                 </div>
                                 <div v-if="!$page.props.user.notifications.length" class="p-2">
                                     <span class="w-100 text-center small text-muted">
@@ -63,15 +63,15 @@
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <inertia-link :href="route('profile.edit')" class="dropdown-item">
+                        <Link :href="route('profile.edit')" class="dropdown-item">
                             <user-icon class="dropdown-item-icon"/>
                             Hesabım
-                        </inertia-link>
+                        </Link>
                         <div class="dropdown-divider"></div>
-                        <inertia-link :href="route('logout')" method="post" as="button" class="dropdown-item">
+                        <Link :href="route('logout')" method="post" as="button" class="dropdown-item">
                             <logout-icon class="dropdown-item-icon"/>
                             Çıkış
-                        </inertia-link>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -106,9 +106,10 @@
 
 <script>
 import NavBarLink from "../Components/NavBarLink";
+import {Link} from "@inertiajs/inertia-vue";
 export default {
     name: "TopNavbar",
-    components: {NavBarLink}
+    components: {NavBarLink, Link}
 }
 </script>
 

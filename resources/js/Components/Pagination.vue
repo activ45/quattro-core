@@ -5,9 +5,9 @@
             <div v-if="link.url === null" class="page-link"  :key="key"
                  v-html="link.label">
             </div>
-            <inertia-link v-else :key="key" class="page-link"  :href="link.url"
+            <Link v-else :key="key" class="page-link"  :href="link.url"
                   v-html="link.label">
-            </inertia-link>
+            </Link>
         </li>
     </ul>
 </template>

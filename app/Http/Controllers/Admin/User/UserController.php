@@ -23,6 +23,7 @@ class UserController extends Controller
     {
         $users = User::whereKeyNot(auth()->id())->paginate();
 
+
         return inertia('Admin/User/Index', [
             'page_users' => $users
         ]);

@@ -1,7 +1,9 @@
 import Vue from "vue";
-import {App, plugin} from "@inertiajs/inertia-vue";
+// import {App, plugin} from "@inertiajs/inertia-vue";
+import { createInertiaApp } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress'
 import {Notyf} from "notyf";
+
 
 import plug from "./_plugin";
 import VueTablerIcons from "vue-tabler-icons";
@@ -36,13 +38,29 @@ Vue.prototype.$notyf = new Notyf({
         },
     ]
 })
-Vue.use(plugin)
 Vue.use(plug)
 Vue.use(VueTablerIcons)
 Vue.use(VueSweetalert2,{confirmButtonText:'Tamam',cancelButtonText:'Vazgeç'});
 Vue.use(VueMeta)
+
 //endregion
 
+createInertiaApp({
+    resolve: name => require(`../Pages/${name}`),
+    setup({ el, app, props }) {
+        new Vue({
+            metaInfo: {
+                titleTemplate: title => (title ? `${title} - Quattro` : 'Quattro'),
+                htmlAttrs: {
+                    lang: 'tr',
+                    amp: false
+                }
+            },
+            render: h => h(app, props),
+        }).$mount(el)
+    },
+})
+/*
 const el = document.getElementById('app')
 new Vue({
     metaInfo: {
@@ -68,3 +86,4 @@ new Vue({
         },
     })
 }).$mount(el)
+*/

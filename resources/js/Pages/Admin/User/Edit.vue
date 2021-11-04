@@ -27,14 +27,6 @@
                             <label class="form-label">E-Posta</label>
                             <input type="text" :value="page_user.email" readonly class="form-control"/>
                         </div>
-                        <div class="mb-3">
-                            <span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-html="true" data-bs-content="<p>ZIP Code must be US or CDN format. You can use an extended ZIP+4 code to determine address more accurately.</p>
-<p class='mb-0'><a href=''>USP ZIP codes lookup tools</a></p>
-">?</span>
-
-                            <label class="form-label">Autosize example</label>
-                            <textarea class="form-control" data-bs-toggle="autosize" placeholder="Type something…"></textarea>
-                        </div>
                     </div>
                     <div class="card-footer text-end">
                         <button type="submit" class="btn btn-primary"><check-icon/> Güncelle</button>
@@ -130,12 +122,13 @@ import AppLayout from "../../../Layouts/AppLayout";
 import PageHeader from "../../../Components/PageHeader";
 import TablerSwitch from "../../../Components/TablerSwitch";
 import Alert from "../../../Components/Alert";
+import TextareaAutosize from "vue-textarea-autosize"
 export default {
     metaInfo:{
         title : 'Kullanıcı Düzenle'
     },
     name: "AdminUserEdit",
-    components: {Alert, TablerSwitch, PageHeader, AppLayout},
+    components: {Alert, TablerSwitch, PageHeader, AppLayout, TextareaAutosize},
     props:{
         page_user:Object,
         page_permissions:Array,

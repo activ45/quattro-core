@@ -5,11 +5,11 @@
         </Avatar>
         <div class="flex-fill">
             <template v-if="userHasPermission('user.show')">
-                <inertia-link v-if="user.id !== $page.props.user.id"
+                <Link v-if="user.id !== $page.props.user.id"
                               :href="route('admin.user.show',user.id)"
-                              class="text-body d-block text-truncate">{{ user.full_name}}</inertia-link>
-                <inertia-link v-else :href="route('profile')"
-                              class="text-body d-block text-truncate">{{ user.full_name}} <small class="text-muted">(Siz)</small></inertia-link>
+                              class="text-body d-block text-truncate">{{ user.full_name}}</Link>
+                <Link v-else :href="route('profile')"
+                              class="text-body d-block text-truncate">{{ user.full_name}} <small class="text-muted">(Siz)</small></Link>
             </template>
             <template v-else>
                 <div class="font-weight-medium">{{user.full_name}}</div>

@@ -24,7 +24,7 @@
                         <label class="form-label">
                             Şifre
                             <span class="form-label-description">
-                  <inertia-link :href="route('password.request')">Şifremi unuttum</inertia-link>
+                  <Link :href="route('password.request')">Şifremi unuttum</Link>
                 </span>
                         </label>
                         <div class="row">

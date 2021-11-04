@@ -36,7 +36,7 @@ export default {
     name: "Dashboard",
     components: {PageHeader, Avatar, AppLayout},
     props:{
-        page_users:Object
+        page_users:Array
     },
     mounted(){
     }

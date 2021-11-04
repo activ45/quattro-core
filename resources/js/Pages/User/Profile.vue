@@ -15,10 +15,10 @@
 
                                 </span>
                             </a>
-                            <inertia-link href="#"
+                            <Link href="#"
                                             @click.prevent="deleteProfilePhoto"
                                           v-show="$page.props.user.profile_photo_path !==  null"
-                                          class="btn btn-sm btn-danger">Kaldır</inertia-link>
+                                          class="btn btn-sm btn-danger">Kaldır</Link>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Ad</label>
@@ -227,6 +227,7 @@
 <script>
 import AppLayout from "../../Layouts/AppLayout";
 import FilledCircleCheckIcon from "../../Components/Icons/FilledCircleCheckIcon";
+import {Link} from "@inertiajs/inertia-vue";
 
 export default {
 name: "Profile",
@@ -254,7 +255,7 @@ name: "Profile",
         }
     }
     },
-    components: {FilledCircleCheckIcon, AppLayout},
+    components: {FilledCircleCheckIcon, AppLayout, Link},
     mounted() {
         this.$refs.modalSmall.addEventListener('hidden.bs.modal',(event)=>{
             this.uploadPhotoCancel();

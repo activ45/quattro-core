@@ -5,7 +5,7 @@
                 <h3 class="page-title">Kullanıcılar</h3>
             </div>
             <div class="col-auto ms-auto">
-                <inertia-link :href="route('admin.user.create')" class="btn btn-primary"><plus-icon/> Yeni Kullanıcı</inertia-link>
+                <Link :href="route('admin.user.create')" class="btn btn-primary"><plus-icon/> Yeni Kullanıcı</Link>
             </div>
         </PageHeader>
         <div class="row">
@@ -31,14 +31,12 @@
                                 </td>
                                 <td class="text-muted" >{{user.email}}</td>
                                 <td class="text-muted" >
-
-                                    <span class="badge bg-azure-lt" v-if="userHasRole('admin',user)">{{user.role_descriptions}}</span>
-                                    <span class="badge bg-red-lt" v-else-if="userHasRole('super-admin',user)">{{user.role_descriptions}}</span>
-                                    <span class="badge bg-dark-lt" v-else>{{user.role_descriptions}}</span>
-
+                                    <span class="badge bg-azure-lt" v-if="userHasRole('admin',user)">Yetkili</span>
+                                    <span class="badge bg-red-lt" v-else-if="userHasRole('super-admin',user)">Sistem Yöneticisi</span>
+                                    <span class="badge bg-dark-lt" v-else>Kullanıcı</span>
                                 </td>
                                 <td>
-                                    <inertia-link :href="route('admin.user.show',user)" class=""><pencil-icon/> Düzenle</inertia-link>
+                                    <Link :href="route('admin.user.show',user)" class=""><pencil-icon/> Düzenle</Link>
                                 </td>
                             </tr>
                             </tbody>
@@ -55,12 +53,12 @@ import AppLayout from "../../../Layouts/AppLayout";
 import PageHeader from "../../../Components/PageHeader";
 import UserInfo from "../../../Components/UserInfo";
 import Avatar from "../../../Components/Avatar";
+import {Link} from "@inertiajs/inertia-vue";
 export default {
     metaInfo:{
         title : 'Kullanıcılar'
     },
-    name: "AdminUserIndex",
-    components: {Avatar, UserInfo, PageHeader, AppLayout},
+    components: {Avatar, UserInfo, PageHeader, AppLayout, Link},
     props:{
         page_users:Object
     }

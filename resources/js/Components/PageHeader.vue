@@ -5,15 +5,15 @@
             <!-- Page title actions -->
             <div class="col-auto ms-auto text-end d-print-none " style="text-align: right;" v-if="backUrl !== null">
                 <span class="d-none d-sm-inline">
-                  <inertia-link :href="backUrl" :class="backText===''?'btn-icon':''" class="btn btn-dark">
+                  <Link :href="backUrl" :class="backText===''?'btn-icon':''" class="btn btn-dark">
                       <ArrowBackUpIcon></ArrowBackUpIcon>
                     {{ backText }}
-                  </inertia-link>
+                  </Link>
                 </span>
                 <span class="d-sm-none">
-                  <inertia-link :href="backUrl" class="btn btn-dark btn-icon">
+                  <Link :href="backUrl" class="btn btn-dark btn-icon">
                       <ArrowBackUpIcon></ArrowBackUpIcon>
-                  </inertia-link>
+                  </Link>
                 </span>
             </div>
         </div>
