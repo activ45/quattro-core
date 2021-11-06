@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use App\Models\Traits\HasProfilePhoto;
+use Laravel\Scout\Searchable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -24,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use SoftDeletes;
     use UserOnline;
     use HasRoles;
+    use Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -70,5 +72,26 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url','full_name','is_online','permissions_all'
     ];
+
+    public $asYouType = true;
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->only([
+            'id',
+            'first_name',
+            'last_name',
+            'email'
+        ]);
+
+        // Customize array...
+
+        return $array;
+    }
 
 }

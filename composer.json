@@ -27,7 +27,9 @@
         "spatie/laravel-activitylog": "^3.17",
         "spatie/laravel-medialibrary": "^9.4",
         "realrashid/sweet-alert": "^4.0",
-        "eastwest/json": "^3.0"
+        "eastwest/json": "^3.0",
+        "laravel/scout": "^9.3",
+        "teamtnt/laravel-scout-tntsearch-driver": "^11.5"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

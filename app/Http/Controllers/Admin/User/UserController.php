@@ -19,13 +19,24 @@ class UserController extends Controller
         $this->middleware('permission:user.delete')->only('destroy');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::whereKeyNot(auth()->id())->paginate();
 
-
+        $users = User::whereKeyNot(auth()->id());
+        /**
+         * @var User $users
+         */
+        if($request->get('q') != null ){
+            $users = User::search($request->get('q'))
+                ->constrain($users);
+//            $users->where(function (Builder $query) use ($request) {
+//                $query->where('first_name','LIKE', '%'.$request->header('X-Quattro-SearchText').'%');
+//                $query->orWhere('last_name','LIKE', '%'.$request->header('X-Quattro-SearchText').'%');
+//                $query->orWhere('email','LIKE', '%'.$request->header('X-Quattro-SearchText').'%');
+//            });
+        }
         return inertia('Admin/User/Index', [
-            'page_users' => $users
+            'page_users' => $users->paginate()
         ]);
     }
 
