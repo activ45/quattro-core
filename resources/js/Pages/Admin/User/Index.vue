@@ -17,7 +17,7 @@
                             <div class="input-group input-group-flat">
                                 <input type="text" v-model="searchText" id="userara" class="form-control" autocomplete="off">
                                 <span class="input-group-text" v-if="searchText">
-                                  <a href="#" @click.prevent="searchText=null;search()" class="input-group-link text-danger">Temizle</a>
+                                  <a href="#" @click.prevent="searchText=null;search(true)" class="input-group-link text-danger">Temizle</a>
                                 </span>
                                 <button class="btn" type="submit">Ara</button>
                             </div>
@@ -91,17 +91,24 @@ export default {
     mounted(){
     },
     methods:{
-        search(){
-            if( this.searchText != null){
+        search(clear=false){
+            let page = undefined
+            if( this.route().params.page > 0 ){
+                let page = this.route().params.page
+            }
+
+            if( this.searchText != null && this.searchText.length > 0){
                 this.$inertia.reload({
                     data:{
-                        'q':this.searchText
+                        page,
+                        q:this.searchText
                     }
                 })
             }else{
                 this.$inertia.reload({
                     data:{
-                        'q':undefined
+                        page,
+                        q:undefined
                     }
                 })
             }

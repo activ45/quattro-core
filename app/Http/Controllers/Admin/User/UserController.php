@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -27,13 +28,13 @@ class UserController extends Controller
          * @var User $users
          */
         if($request->get('q') != null ){
-            $users = User::search($request->get('q'))
-                ->constrain($users);
-//            $users->where(function (Builder $query) use ($request) {
-//                $query->where('first_name','LIKE', '%'.$request->header('X-Quattro-SearchText').'%');
-//                $query->orWhere('last_name','LIKE', '%'.$request->header('X-Quattro-SearchText').'%');
-//                $query->orWhere('email','LIKE', '%'.$request->header('X-Quattro-SearchText').'%');
-//            });
+//            $users = User::search($request->get('q'))
+//                ->constrain($users);
+            $users->where(function (Builder $query) use ($request) {
+                $query->where('first_name','LIKE', '%'.$request->get('q').'%');
+                $query->orWhere('last_name','LIKE', '%'.$request->get('q').'%');
+                $query->orWhere('email','LIKE', '%'.$request->get('q').'%');
+            });
         }
         return inertia('Admin/User/Index', [
             'page_users' => $users->paginate()
