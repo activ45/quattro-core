@@ -27,24 +27,34 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-card" style="min-width: 18rem">
                         <div class="card d-flex flex-column">
-                            <div class="card-body p-1 d-flex flex-column">
+                            <div class="card-body p-1 pt-0 d-flex flex-column">
+                                <div class="p-1 mb-1 border-bottom">
+                                    <Link class="btn btn-link"
+                                          :class="{'disabled':!$page.props.user.notifications.length}"
+                                          :href="route('notifications.markread',0)">Hepsini Oku</Link>
+                                    <Link class="btn btn-link text-danger float-end"
+                                          :class="{'disabled text-muted':!$page.props.user.notifications.length}"
+                                          :href="route('notifications.markread',-1)">Temizle</Link>
+                                </div>
                                 <div v-for="notification in $page.props.user.notifications" v-bind:key="notification.id">
                                     <Link class="dropdown-item mb-1"
+                                          :title="notification.created_at|momentH"
                                                   :class="notification.read_at===null?'bg-lime-lt  animate__animated animate__jackInTheBox animate__faster':''"
                                                   :href="route('notifications.markread',notification.id)" >
                                         <span class="w-100">
                                             <span class="">{{ notification.data.title }}</span>
                                             <small class="text-muted float-end pl-1"> {{
-                                                    notification.created_at|moment
+                                                    notification.created_at | momentFromNow
                                                 }}</small>
                                             <br>
                                             <small class="text-muted " v-html="notification.data['message']"></small>
                                         </span>
                                     </Link>
                                 </div>
-                                <div v-if="!$page.props.user.notifications.length" class="p-2">
-                                    <span class="w-100 text-center small text-muted">
-                                        Mesaj yok
+                                <div v-if="!$page.props.user.notifications.length" class="p-2 text-center">
+                                    <span class="text-muted">
+                                      <info-circle-icon></info-circle-icon>
+                                        Henüz bildirim yok.
                                     </span>
                                 </div>
                             </div>
@@ -55,8 +65,11 @@
                     <a href="#" class="nav-link d-flex lh-1 p-0" data-bs-toggle="dropdown"
                        :class="userHasRole('admin')?'text-primary':userHasRole('super-admin')?'text-danger':'text-reset'"
                        aria-label="Open user menu">
-                            <span class="avatar avatar-sm"
-                                  :style="'background-image: url('+$page.props.user.profile_photo_url+')'"></span>
+                            <avatar class="avatar avatar-sm"
+                                    background-color="#f0f2f6"
+                                    color="#656d77"
+                                    :username="$page.props.user.full_name"
+                            :src="$page.props.user.profile_photo_url"></avatar>
                         <div class="d-none d-xl-block ps-2">
                             <div>{{ $page.props.user.full_name }}</div>
                             <div class="mt-1 small text-muted">{{ $page.props.user.email }}</div>
@@ -67,6 +80,10 @@
                             <user-icon class="dropdown-item-icon"/>
                             Hesabım
                         </Link>
+                        <Link :href="route('profile.edit')" v-if="userHasRole('super-admin')" class="dropdown-item">
+                            <settings-icon class="dropdown-item-icon"/>
+                            Sistem Ayarları
+                        </Link>
                         <div class="dropdown-divider"></div>
                         <Link :href="route('logout')" method="post" as="button" class="dropdown-item">
                             <logout-icon class="dropdown-item-icon"/>
@@ -75,31 +92,7 @@
                     </div>
                 </div>
             </div>
-
-            <div class="collapse navbar-collapse" id="navbar-menu">
-                <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
-                    <ul class="navbar-nav">
-                        <nav-bar-link tag="dashboard" active="dashboard">
-                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                    <smart-home-icon/>
-                                </span>
-                            <span class="nav-link-title">
-                                  Ana Sayfa
-                                </span>
-                        </nav-bar-link>
-                        <nav-bar-link tag="admin.user.index"
-                                      v-if="userHasPermission('user.show')"
-                                      active="admin.user.">
-                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                    <users-icon></users-icon>
-                                </span>
-                            <span class="nav-link-title">
-                                  Kullanıcılar
-                                </span>
-                        </nav-bar-link>
-                    </ul>
-                </div>
-            </div>
+            <Navbar/>
         </div>
     </header>
 </template>
@@ -107,9 +100,11 @@
 <script>
 import NavBarLink from "../Components/NavBarLink";
 import {Link} from "@inertiajs/inertia-vue";
+import Avatar from "vue-avatar";
+import Navbar from "./_Navbar";
 export default {
     name: "TopNavbar",
-    components: {NavBarLink, Link}
+    components: {Navbar, NavBarLink, Link, Avatar}
 }
 </script>
 

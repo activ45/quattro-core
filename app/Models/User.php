@@ -13,6 +13,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use App\Models\Traits\HasProfilePhoto;
 use Laravel\Scout\Searchable;
+use Rennokki\QueryCache\Traits\QueryCacheable;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -26,6 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use UserOnline;
     use HasRoles;
     use Searchable;
+    use QueryCacheable;
 
     /**
      * The attributes that are mass assignable.
@@ -36,7 +39,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'first_name',
         'last_name',
         'email',
-        'password','settings'
+        'password','settings',
+        'tc_kn',
+        'birth_year',
+        'tc_verified_at'
+
     ];
     protected $attributes = [
         'settings' => '[]',
@@ -61,6 +68,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'tc_verified_at' => 'datetime',
         'settings' => 'json'
     ];
 
@@ -70,7 +78,9 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $appends = [
-        'profile_photo_url','full_name','is_online','permissions_all'
+        'profile_photo_url',
+        'full_name',
+        'is_online'
     ];
 
     public $asYouType = true;
@@ -88,8 +98,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'last_name',
             'email'
         ]);
-
-        // Customize array...
 
         return $array;
     }

@@ -2,8 +2,7 @@
 
 namespace App\Providers;
 
-use App\Enums\TicketStatus;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,7 +14,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**
@@ -25,5 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (env('APP_FORCE_HTTPS', false)) {
+            URL::forceScheme('https');
+        }
     }
 }

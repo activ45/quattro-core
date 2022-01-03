@@ -18,9 +18,11 @@ class PermissionSeeder extends Seeder
 
 
         Permission::create(['name' => 'user.show','description'=>'Kullanıcı Görüntüleme']);
-        Permission::create(['name' => 'user.create','description'=>'Kullanıcı güncelleme']);
-        Permission::create(['name' => 'user.edit','description'=>'Kullanıcı güncelleme']);
-        Permission::create(['name' => 'user.delete','description'=>'Kullanıcı silme']);
+        Permission::create(['name' => 'user.create','description'=>'Kullanıcı Oluşturma']);
+        Permission::create(['name' => 'user.edit','description'=>'Kullanıcı Güncelleme']);
+        Permission::create(['name' => 'user.delete','description'=>'Kullanıcı Silme']);
+
+        Permission::create(['name' => 'test.show','description'=>'Örnek Yetki']);
 
         Role::create([
             'name' => 'super-admin',

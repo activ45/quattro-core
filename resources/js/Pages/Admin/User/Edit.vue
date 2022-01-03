@@ -1,117 +1,42 @@
 <template>
     <AppLayout>
-        <PageHeader :back-url="route('admin.user.index')">
+        <PageHeader :back-url="back_url == route(route().current(),route().params) ? route('admin.user.index') : back_url">
             <div class="col">
                 <h3 class="page-title"><UserIcon/> – Kullanıcı Düzenle</h3>
-                <div class="page-subtitle"><span class="text-muted">#{{ page_user.id }}</span> - <strong>{{ page_user.full_name }}</strong> - {{page_user.email}}</div>
+                <div class="page-subtitle"><span class="text-muted">#{{ page_user.id }}</span> - <strong>{{ page_user.full_name }} —
+                    <BadgeUserRole :user="page_user"/>
+                </strong> — {{page_user.email}}</div>
             </div>
         </PageHeader>
-        <div class="row justify-content-between">
-            <div class="mb-2 col-lg-4 col-md-4">
-                <form @submit.prevent="submitUserUpdate" class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Kullanıcı Bilgileri</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label class="form-label required">Ad</label>
-                            <input type="text" v-model="form_user.first_name" :class="this.$page.props.errors.first_name?'is-invalid':''" class="form-control"/>
-                            <div class="invalid-feedback">{{this.$page.props.errors.first_name}}</div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label required">Soyad</label>
-                            <input type="text" v-model="form_user.last_name" :class="this.$page.props.errors.last_name?'is-invalid':''" class=" form-control"/>
-                            <div class="invalid-feedback">{{this.$page.props.errors.last_name}}</div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">E-Posta</label>
-                            <input type="text" :value="page_user.email" readonly class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="card-footer text-end">
-                        <button type="submit" class="btn btn-primary"><check-icon/> Güncelle</button>
-                    </div>
-                </form>
+        <div class="row" v-if="!page_user.tc_verified_at">
+            <div class="col">
+                <Alert type="danger" class="alert-important" icon>Kullanıcı T.C. Kimlik numarası onaylı <strong>değil</strong> !</Alert>
             </div>
-            <div class="mb-2 col-lg-3 col-md-4 offset-lg-2">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Kullanıcı Rolü</h3>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-3 col-3">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a aria-current="page" class="nav-link active" data-bs-toggle="tab"
+                           href="#tabs-profile"
+                        ><user-icon class="me-2"></user-icon> Profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab"
+                           href="#tabs-authorization"
+                        ><shield-icon class="me-2"/> Yetkilendirme</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col">
+                <div class="tab-content">
+                    <div class="tab-pane active show" id="tabs-profile">
+                        <TabUserEdit :user="page_user"></TabUserEdit>
                     </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
-                                <label class="form-selectgroup-item flex-fill" v-for="rol in page_roles">
-                                    <input type="radio" name="user_role" v-model="form_role" :value="rol.name" class="form-selectgroup-input">
-                                    <div class="form-selectgroup-label d-flex align-items-center p-3">
-                                        <div class="me-3">
-                                            <span class="form-selectgroup-check"></span>
-                                        </div>
-                                        <div>
-                                            <span class=" text-primary" v-if="rol.name === 'admin'">{{ rol.description }}</span>
-                                            <span class=" text-red" v-else-if="rol.name === 'super-admin'">{{ rol.description }}</span>
-                                            <span class=" " v-else-if="rol.name === 'user'">{{ rol.description }}</span>
-                                            <span class=" " v-else>{{ rol.description }}</span>
-                                        </div>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer text-end">
-                        <button type="button" class="btn btn-primary" @click.prevent="submitRoleUpdate()"><check-icon/> Güncelle</button>
+                    <div class="tab-pane" id="tabs-authorization">
+                        <TabUserAuthorization :user="page_user"></TabUserAuthorization>
                     </div>
                 </div>
-            </div>
-            <div class="mb-2 col-lg-3 col-md-4">
-                <Alert type="warning" icon   v-if="userHasRole('super-admin',page_user)" class="alert-important">Sistem yöneticisi tam yetkilidir.<br>
-                <small>Ekstra bir yetki vermenize gerek yoktur.</small></Alert>
-                <div class="card">
-                    <div>
-                        <h4 class="border-bottom p-2 ">Kullanıcı Yönetimi</h4>
-                        <div class="px-2">
-                            <label class="form-check" :class="{'cursor-not-allowed':userHasPermission(perm.name,page_user) && !page_user.permissions.some(p=>p.name === perm.name)}"
-                                   v-for="perm in page_permissions.filter(f=> f.name.split('.')[0] === 'user')">
-                            <input class="form-check-input" :disabled="userHasPermission(perm.name,page_user) && !page_user.permissions.some(p=>p.name === perm.name)"
-                                   v-model="form_permissions" :value="perm.name"
-                                   type="checkbox">
-                            <span class="form-check-label" :title="perm.name">
-                                <plus-icon v-if="perm.name.includes('.create')"></plus-icon>
-                                <search-icon v-if="perm.name.includes('.show')"></search-icon>
-                                <edit-icon v-if="perm.name.includes('.edit')"></edit-icon>
-                                <trash-icon v-if="perm.name.includes('.delete')"></trash-icon>
-                                <span :class="userHasPermission(perm.name,page_user)?'strong':''">{{
-                                    perm.description
-                                }}</span>
-                            </span>
-                        </label></div>
-                    </div>
-                    <div v-if="page_permissions.filter(f=> f.name.split('.')[0] !== 'user').length">
-                        <h4 class="border-bottom border-top p-2 bg-dark-lt">Diğer Yetkiler</h4>
-                        <div class="px-2">
-                            <label class="form-check" :class="{'cursor-not-allowed':userHasPermission(perm.name,page_user) && !page_user.permissions.some(p=>p.name === perm.name)}"
-                                   v-for="perm in page_permissions.filter(f=>
-                        f.name.split('.')[0] !== 'user'
-                            )">
-                                <input class="form-check-input" :disabled="userHasPermission(perm.name,page_user) && !page_user.permissions.some(p=>p.name === perm.name)"
-                                       v-model="form_permissions" :value="perm.name"
-                                       type="checkbox">
-                                <span class="form-check-label" :title="perm.name">
-                                <plus-icon v-if="perm.name.includes('.create')"></plus-icon>
-                                <search-icon v-if="perm.name.includes('.show')"></search-icon>
-                                <edit-icon v-if="perm.name.includes('.edit')"></edit-icon>
-                                <trash-icon v-if="perm.name.includes('.delete')"></trash-icon>
-                                <span :class="userHasPermission(perm.name,page_user)?'strong':''">{{
-                                        perm.description
-                                    }}</span>
-                            </span>
-                            </label></div>
-                    </div>
-                    <div class="card-footer text-end">
-                        <button type="button" class="btn btn-primary" @click.prevent="submitPermissionUpdate()"><check-icon/> Güncelle</button>
-                    </div>
-                </div>
-
             </div>
         </div>
     </AppLayout>
@@ -123,51 +48,65 @@ import PageHeader from "../../../Components/PageHeader";
 import TablerSwitch from "../../../Components/TablerSwitch";
 import Alert from "../../../Components/Alert";
 import TextareaAutosize from "vue-textarea-autosize"
+import Avatar from "vue-avatar";
+import BadgeUserRole from "../../../Components/BadgeUserRole";
+import TabUserEdit from "@/Pages/Admin/User/Components/TabUserEdit";
+import TabUserAuthorization from "@/Pages/Admin/User/Components/TabUserAuthorization";
+
 export default {
     metaInfo:{
         title : 'Kullanıcı Düzenle'
     },
     name: "AdminUserEdit",
-    components: {Alert, TablerSwitch, PageHeader, AppLayout, TextareaAutosize},
+    components: {
+        TabUserAuthorization,
+        TabUserEdit, BadgeUserRole, Alert, TablerSwitch, PageHeader, AppLayout, TextareaAutosize, Avatar},
     props:{
         page_user:Object,
         page_permissions:Array,
         page_roles:Array,
+        page_departments:Array
     },
     data(){
         return {
-            form_user:{
-                first_name:this.page_user.first_name,
-                last_name:this.page_user.last_name
-            },
-            form_role:this.page_user.roles[0].name,
-            form_permissions:this.page_user.permissions_all.map(per=>per.name),
-
+                back_url:null,
+                process_name:null,
         }
     },
+    mounted() {
+        this.back_url = this.$page.props.app.back_url;
+        this.$inertia.on('finish',()=>this.process_name = null)
+    },
     methods:{
-        submitUserUpdate(){
-
-            this.$inertia.put(route('admin.user.update',this.page_user),this.form_user,{
-                onSuccess:(page)=>{
-                    this.form_user.first_name = page.props.page_user.first_name
-                    this.form_user.last_name = page.props.page_user.last_name
+        submitDepartmentUpdate(){
+            this.process_name = "department_update"
+            this.$inertia.put(route('admin.user.update_department',this.page_user),{departments:this.form_departments},{
+                preserveScroll : true,
+                onFinish:()=>{
+                    this.form_departments = this.$page.props.page_user.departments.map(dep=>dep.id)
                 }
             })
         },
         submitPermissionUpdate(){
+            this.process_name = "permission_update"
             this.$inertia.put(route('admin.user.update_permission',this.page_user),{permissions:this.form_permissions},{
-                onSuccess:(page)=>{
+                preserveScroll : true,
+                onFinish:()=>{
+                    this.form_permissions = this.$page.props.page_user.permissions_all.map(per=>per.name)
                 }
             })
         },
         submitRoleUpdate(){
+            this.process_name = "role_update"
             this.$inertia.put(route('admin.user.update_role',this.page_user),{role:this.form_role},{
-                onSuccess:(page)=>{
-                    this.form_permissions = page.props.page_user.permissions_all.map(per=>per.name)
+                preserveScroll : true,
+                onFinish:()=>{
+                    this.form_role = this.$page.props.page_user.roles[0].name
+                    this.form_permissions = this.$page.props.page_user.permissions_all.map(per=>per.name)
                 }
             })
-        }
+        },
+
 
     }
 }

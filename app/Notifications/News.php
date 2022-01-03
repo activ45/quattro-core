@@ -2,13 +2,15 @@
 
 namespace App\Notifications;
 
+use App\Notifications\Channels\Dashboard\DashboardChannel;
+use App\Notifications\Channels\Dashboard\DashboardMessage;
 use Illuminate\Notifications\Notification;
 
 class News extends Notification
 {
 
-    public $title;
-    public $message;
+    public string $title;
+    public ?string $message;
     public function __construct(string $title,string $message=null)
     {
         $this->title = $title;

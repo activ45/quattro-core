@@ -4,9 +4,12 @@ namespace App\Observers;
 
 use App\Models\User;
 use App\Notifications\News;
+use Deligoez\TCKimlikNo\TCKimlikNo;
 
 class UserObserver
 {
+
+
     /**
      * Handle the user "created" event.
      *
@@ -18,6 +21,10 @@ class UserObserver
         $user->notify(new News('Yeni Hesap','Hesabınız oluşturuldu.'));
     }
 
+
+    public function updating(User $user)
+    {
+    }
     /**
      * Handle the user "updated" event.
      *
@@ -25,7 +32,7 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        //
+        $user->flushQueryCache();
     }
 
     /**
@@ -35,7 +42,7 @@ class UserObserver
      */
     public function deleted(User $user)
     {
-        //
+        $user->flushQueryCache();
     }
 
     /**
@@ -45,6 +52,7 @@ class UserObserver
      */
     public function restored(User $user)
     {
+        $user->flushQueryCache();
         $user->notify(new News('Hesap Silinmesi','Hesabınız silinmiş durumdan geri alındı.'));
     }
 
@@ -55,6 +63,6 @@ class UserObserver
      */
     public function forceDeleted(User $user)
     {
-        //
+        $user->flushQueryCache();
     }
 }

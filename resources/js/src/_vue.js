@@ -1,16 +1,18 @@
 import Vue from "vue";
-// import {App, plugin} from "@inertiajs/inertia-vue";
 import { createInertiaApp } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress'
 import {Notyf} from "notyf";
+import { BootstrapVue } from 'bootstrap-vue'
 
 
 import plug from "./_plugin";
 import VueTablerIcons from "vue-tabler-icons";
 import VueSweetalert2 from "vue-sweetalert2";
 import VueMeta from "vue-meta";
-import User from "../Models/User";
-import UserPaginate from "../Models/User/UserPaginate";
+import VueTextareaAutosize from 'vue-textarea-autosize'
+import VueMoment from 'vue-moment'
+import * as moment from 'moment';
+import 'moment/locale/tr'
 
 //region Vue plugins initialize
 InertiaProgress.init()
@@ -38,11 +40,19 @@ Vue.prototype.$notyf = new Notyf({
         },
     ]
 })
-Vue.use(plug)
+
 Vue.use(VueTablerIcons)
 Vue.use(VueSweetalert2,{confirmButtonText:'Tamam',cancelButtonText:'Vazgeç'});
 Vue.use(VueMeta)
+Vue.use(VueTextareaAutosize)
+Vue.use(BootstrapVue)
 
+Vue.use(VueMoment, {
+    moment
+});
+
+//end plugin
+Vue.use(plug)
 //endregion
 
 createInertiaApp({
@@ -60,30 +70,3 @@ createInertiaApp({
         }).$mount(el)
     },
 })
-/*
-const el = document.getElementById('app')
-new Vue({
-    metaInfo: {
-        title:'',
-        titleTemplate: '%s - Quattro',
-        htmlAttrs: {
-            lang: 'tr',
-            amp: false
-        }
-    },
-    render: h => h(App, {
-        props: {
-            initialPage: JSON.parse(el.dataset.page),
-            resolveComponent: name => require(`../Pages/${name}`).default,
-            transformProps: props => {
-                return {
-                    ...props,
-                    user: new User(props.user),
-                    page_users: new UserPaginate(props.page_users),
-                    // errors: new Errors(props.errors),
-                }
-            },
-        },
-    })
-}).$mount(el)
-*/

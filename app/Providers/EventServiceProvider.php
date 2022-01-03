@@ -2,11 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Ticket;
-use App\Models\TicketMessage;
 use App\Models\User;
-use App\Observers\TicketMessageObserver;
-use App\Observers\TicketObserver;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;

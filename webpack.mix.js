@@ -9,10 +9,18 @@
  |
  */
 const mix = require('laravel-mix');
+const path = require("path");
 mix.disableSuccessNotifications();
 
+mix.alias({
+    '@': path.join(__dirname, 'resources/js')
+});
 
 // console.log(process.env); // a large object without my var
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/scss/app.scss','public/css')
-    .vue().version();
+mix.js('resources/js/app.js', '/js')
+    .sass('resources/scss/app.scss','/css')
+    .vue();
+
+if (mix.inProduction()) {
+    mix.version();
+}

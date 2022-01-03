@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Notifications;
+namespace App\Notifications\Channels\Dashboard;
 
 use Illuminate\Notifications\Notification;
 

@@ -133,6 +133,7 @@ return [
         'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
         'key' => env('MEILISEARCH_KEY', null),
     ],
+
     'tntsearch' => [
         'storage'  => storage_path(), //place where the index files will be stored
         'fuzziness' => env('TNTSEARCH_FUZZINESS', false),

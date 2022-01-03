@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -24,18 +25,20 @@ class UserProfileController extends Controller
 
         return inertia('User/Profile', [
             'page_sessions' => $this->getSessionsProperty(),
+            'page_user' => auth()->user()->load('departments')
         ]);
     }
 
     /**
      * Delete user's profile photo.
      *
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function deleteProfilePhoto()
     {
         Auth::user()->deleteProfilePhoto();
-        return back()->with('status-success-toast', 'Profile Photo Deleted!');
+        flash('Profil fotoğrafı silindi.')->success();
+        return back();
     }
 
     /**
@@ -132,6 +135,7 @@ class UserProfileController extends Controller
         \Setting::set('notyf_yposition',$request->input('notyf_yposition'));
         \Setting::set('notyf_xposition',$request->input('notyf_xposition'));
         \Setting::save();
+
         flash('Hesap ayarları güncellendi.')->success();
         return back();
     }

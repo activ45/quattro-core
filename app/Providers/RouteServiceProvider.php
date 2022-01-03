@@ -38,6 +38,9 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
+            Route::namespace($this->namespace)
+                ->group(base_path('routes/install.php'));
+
             Route::prefix('api')
                 ->middleware('api')
                 ->namespace($this->namespace)
@@ -47,7 +50,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 
-            Route::middleware(['web','auth','verified','role:admin'])
+            Route::middleware(['web','auth','verified'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/admin.php'));
         });

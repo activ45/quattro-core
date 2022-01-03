@@ -2,41 +2,36 @@
     <AppLayout>
         <PageHeader>
             <div class="col">
-                <h3 class="page-title">Tüm Kullanıcılar</h3>
+                <h3 class="page-title">Quattro Bildirim Paneli</h3>
             </div>
         </PageHeader>
-        <div class="row row-cards">
-            <div class="col-md-3 col-lg-2" v-for="user in page_users">
-                <div class="card">
-                    <div class="card-body p-3 text-center">
-                        <Avatar :src="user.profile_photo_url" class="avatar-xl mb-3 border-5 border-bottom"
-                                :class="[user.is_online?'border-success':'border-danger']">
-<!--                            <span class="badge small" :class="[user.is_online?'bg-success':'bg-red']"></span>-->
-                        </Avatar>
-                        <h3 class="m-0" :class="userHasRole('admin',user)?'text-azure':''"><a href="#">{{ user.full_name }}</a></h3>
-                        <div class="text-muted">{{ user.email }}</div>
-                        <div class="mt-3">
-                            <span class="badge bg-azure-lt" v-if="userHasRole('admin',user)">Yetkili</span>
-                            <span class="badge bg-red-lt" v-else-if="userHasRole('super-admin',user)">Sistem Yöneticisi</span>
-                            <span class="badge bg-dark-lt" v-else>Kullanıcı</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="row" v-if="tc_verified_users > 0 && userHasPermission('user.show')">
+            <Alert type="danger" icon class="alert-important"><strong>{{tc_verified_users}}</strong> adet T.C. Kimlik numarası onaylanmamış kullanıcı mevcut.
+                — <Link :href="route('admin.user.index',{'tcverified':0})" class="alert-link">Görüntüle</Link>!
+            </Alert>
         </div>
     </AppLayout>
 </template>
 
 <script>
 import AppLayout from "../Layouts/AppLayout";
-import Avatar from "../Components/Avatar";
+import Avatar from "vue-avatar";
 import PageHeader from "../Components/PageHeader";
+import UserInfo from "@/Components/UserInfo";
+import BadgeTicketStatus from "@/Components/BadgeTicketStatus";
+import {Link} from "@inertiajs/inertia-vue";
+import Alert from "@/Components/Alert"
+
 export default {
     metaInfo:{title:'Ana Sayfa'},
     name: "Dashboard",
-    components: {PageHeader, Avatar, AppLayout},
+    components: {BadgeTicketStatus, UserInfo, PageHeader, Avatar, AppLayout, Link, Alert},
     props:{
-        page_users:Array
+        tc_verified_users:Number,
+    },
+    data(){
+        return {
+        }
     },
     mounted(){
     }

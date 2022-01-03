@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Channels\Dashboard;
 use Carbon\Carbon;
 use Illuminate\Notifications\Messages\DatabaseMessage;
 

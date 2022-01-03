@@ -36,20 +36,20 @@ class HandleInertiaRequests extends Middleware
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function share(Request $request)
+    public function share(Request $request) : array
     {
         return array_merge(parent::share($request), [
             'app' => [
                 'name' => config('app.name'),
                 'current_route' => request()->route()->getName(),
+                'back_url' => url()->previous(),
                 'asset_url' => asset('')
-
             ],
 
             // Lazily
             'user' =>function() use($request) {
                 return $request->user()
-                    ? $request->user()->append(['notifications','unread_notifications'])
+                    ? $request->user()->append(['notifications','unread_notifications','permissions_all'])
                     : null;
                 },
             'swal' => fn () => (object) Json::decode($request->session()->get('alert.config','[]')),

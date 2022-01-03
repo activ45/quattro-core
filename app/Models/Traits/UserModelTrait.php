@@ -6,11 +6,51 @@ namespace App\Models\Traits;
 
 use App\Models\Department;
 use App\Models\Ticket;
+use App\Models\TicketMessage;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Models\Permission;
 
 trait UserModelTrait
 {
+
+    use LogsActivity;
+    //region Logs Activity Properties
+    public static $logMessage = null;
+    protected static $logName = 'user';
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        if(static::$logMessage != null){
+            return static::$logMessage;
+        }
+
+        if($eventName == 'created'){
+            static::$logName= 'user.create';
+            return "Yeni kullanıcı oluşturuldu.";
+        }elseif($eventName == 'updated'){
+            static::$logName= 'user.update';
+            return "Kullanıcı güncellendi.";
+        }elseif($eventName == 'deleted'){
+            static::$logName= 'user.delete';
+            return "Kullanıcı silindi.";
+        }else{
+            return "{$eventName}";
+        }
+    }
+    //endregion
+
+    /**
+     *
+     * @return bool
+     */
+    public function hasVerifiedTC()
+    {
+        return ! is_null($this->tc_verified_at);
+    }
+
     //RELATIONSHIPS
+
 
     // GETTERS
     public function getFullNameAttribute()
@@ -36,6 +76,10 @@ trait UserModelTrait
         return $this->getAllPermissions()->transform(function(Permission $item){
             return $item->only('name','description');
         });
+    }
+    public function getRoleTextAttribute()
+    {
+        return $this->roles->pluck('description')->implode(',');
     }
 
     // SETTERS

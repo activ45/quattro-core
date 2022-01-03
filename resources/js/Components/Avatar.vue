@@ -1,16 +1,18 @@
 <template>
-<span class="avatar"
-      :style="'background-image: url('+getSrc()+')'">
-    <slot></slot>
-</span>
+    <avatar username="Jane Doe"></avatar>
 </template>
 
 <script>
+import Avatar from 'vue-avatar'
+
 export default {
     name: "Avatar",
     props: {
         src:String,
         user:Object
+    },
+    components:{
+        Avatar
     },
     methods:{
         getSrc(){

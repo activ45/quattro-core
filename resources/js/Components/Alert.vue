@@ -18,6 +18,7 @@
 
 <script>
 export default {
+    name:'Alert',
     props:{
         type:{
             type: String,

@@ -1,20 +1,12 @@
-import * as moment from 'moment';
-import 'moment/locale/tr'
-import { Inertia } from '@inertiajs/inertia'
+import {Inertia} from '@inertiajs/inertia'
+import Vue from "vue";
 
 export default {
     install: (app, options) => {
-        moment.locale('tr')
+        Inertia.on('error', (errors) => {
+            Vue.prototype.$notyf.error('Bir hata oluştu!')
+        })
         app.mixin({
-            created() {
-                if (this._uid===0) {
-                    Inertia.on('error', (errors) => {
-                        this.$notyf.error('Bir hata oluştu!')
-                    })
-                }
-            },
-            mounted() {
-            },
             methods: {
                 route: (name, params, absolute) => route(name, params, absolute),
                 asset(url){
@@ -27,6 +19,8 @@ export default {
                 },
                 userHasPermission(perm,user=null){
                     user = user === null ? this.$page.props.user : user;
+                    if( user.roles.some((r)=>r.name === 'super-admin') )
+                        return true;
                     return user.permissions_all.some((p)=>p.name === perm);
                 },
                 swalConfirm(text){
@@ -40,18 +34,30 @@ export default {
                         cancelButtonText: 'Hayır',
                         confirmButtonText: 'Evet'
                     })
+                },
+                swalConfirmHtml(html){
+                    return this.$swal({
+                        title: 'Emin misin?',
+                        html: html,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: 'Hayır',
+                        confirmButtonText: 'Evet'
+                    })
                 }
             },
             filters: {
-                moment: function (date) {
-                    return moment(date).format('DD/MM/YYYY HH:mm');
+                momentH: function (date) {
+                    return app.moment(date).format('DD/MM/YYYY HH:mm');
                 },
-                moments: function (date) {
-                    return moment(date).format('DD/MM/YYYY HH:mm:ss');
+                momentS: function (date) {
+                    return app.moment(date).format('DD/MM/YYYY HH:mm:ss');
                 },
                 momentFromNow: function (date) {
 
-                    return moment(date).fromNow();
+                    return app.moment(date).fromNow();
                 }
             }
         })

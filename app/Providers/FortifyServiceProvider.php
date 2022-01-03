@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Http\Requests\LoginRequest;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -34,17 +36,23 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Fortify::authenticateUsing(function (Request $request) {
-            $user = User::where('email', $request->email)->first();
-
+        Fortify::authenticateUsing(function (LoginRequest $request) {
+            $user = User::where('email', $request->email)
+                ->first();
             if ($user &&
                 Hash::check($request->password, $user->password)) {
+                if(!$user->hasVerifiedTC()){
+                    flash('T.C. Kimliğiniz onaylı değil.')->error();
+                    return false;
+                }
                 return $user;
             }
         });
 
         Fortify::loginView(function () {
-            return inertia('Auth/Login');
+            return inertia('Auth/Login',[
+                'sample_users' => User::with('roles')->whereIn('id',[1,2,3,4,])->get()->append('role_text')
+            ]);
         });
 
         Fortify::registerView(function () {
@@ -60,7 +68,7 @@ class FortifyServiceProvider extends ServiceProvider
 
 
             $getToken = \DB::table('password_resets')
-                ->where('email',$request->get('email'))
+                ->where('email',$request->input('email'))
                 ->first();
 
             if( !$getToken || !Hash::check($request->route()->parameter('token'),$getToken->token) ){
@@ -69,12 +77,14 @@ class FortifyServiceProvider extends ServiceProvider
             }
 
             return inertia('Auth/ResetPassword', ['request' => [
-                'email' => $request->get('email'),
+                'email' => $request->input('email'),
                 'token' => $request->route()->parameter('token')
             ]]);
         });
 
         Fortify::verifyEmailView(function () {
+            flash('Hesabınızı onaylayın')->warning();
+            return redirect()->route('profile.edit');
             return inertia('Auth/VerifyEmail');
         });
 
@@ -89,11 +99,18 @@ class FortifyServiceProvider extends ServiceProvider
          Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
 
         RateLimiter::for('login', function (Request $request) {
-            return Limit::perMinute(5)->by($request->email.$request->ip());
+            return Limit::perMinute(100)->by($request->email.$request->ip());
         });
 
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
+        });
+
+        RateLimiter::for('verification', function (Request $request) {
+            if ($request->routeIs('verification.verify')){
+                return Limit::perMinutes(1,3)->by($request->email.$request->ip());
+            }
+            return Limit::perMinutes(1,1)->by($request->email.$request->ip());
         });
     }
 }

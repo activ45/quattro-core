@@ -42,3 +42,34 @@ body{
 .form-control, .form-control:focus {
     background-color: #fff;
 }
+.icon {
+    stroke-width: 1.5 !important;
+    outline: none;
+}
+
+.vue-avatar--wrapper {
+    background-color: #f0f2f6;
+    background-size: cover !important;
+    background-position: center center !important;
+}
+.dropdown-menu {
+    outline: none;
+}
+.notyf {
+    padding: 40px!important;
+}
+/* Chrome, Safari, Edge, Opera */
+input.form-number::-webkit-outer-spin-button,
+input.form-number::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number].form-number {
+    -moz-appearance: textfield;
+}
+
+.dropdown-item-icon {
+    color: #262f3c;
+}
