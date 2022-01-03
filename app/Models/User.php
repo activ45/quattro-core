@@ -27,7 +27,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use SoftDeletes;
     use UserOnline;
     use HasRoles;
-    use Searchable;
     use QueryCacheable;
 
     /**
@@ -82,24 +81,5 @@ class User extends Authenticatable implements MustVerifyEmail
         'full_name',
         'is_online'
     ];
-
-    public $asYouType = true;
-
-    /**
-     * Get the indexable data array for the model.
-     *
-     * @return array
-     */
-    public function toSearchableArray()
-    {
-        $array = $this->only([
-            'id',
-            'first_name',
-            'last_name',
-            'email'
-        ]);
-
-        return $array;
-    }
 
 }
