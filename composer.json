@@ -1,12 +1,10 @@
 {
-    "name": "batv45/quattro-ticket",
+    "name": "batv45/quattro",
     "type": "project",
-    "description": "Quattro Ticket Support Package.",
+    "description": "Quattro Core.",
     "keywords": [
         "quattro",
-        "laravel",
-        "ticket",
-        "support"
+        "laravel"
     ],
     "license": "MIT",
     "require": {
@@ -47,7 +45,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "tcomposer/package-versions-deprecated": true
+        }
     },
     "extra": {
         "laravel": {
